@@ -26,7 +26,7 @@ public class AudioPitchEstimator : MonoBehaviour
     public float thresholdSRH = 7;
 
     const int spectrumSize = 1024;
-    const int outputResolution = 200; // frequency axis resolution (decreasing this will reduce the calculation load)
+    const int outputResolution = 100; // frequency axis resolution (decreasing this will reduce the calculation load)
     float[] spectrum = new float[spectrumSize];
     float[] specRaw = new float[spectrumSize];
     float[] specCum = new float[spectrumSize];

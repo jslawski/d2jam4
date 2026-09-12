@@ -597,6 +597,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pitchEstimator: {fileID: 1767640375}
+  minClampedPitch: 130
+  maxClampedPitch: 350
   _audioSource: {fileID: 1767640376}
 --- !u!114 &1767640375
 MonoBehaviour:
@@ -614,7 +616,7 @@ MonoBehaviour:
   frequencyMax: 500
   harmonicsToUse: 5
   smoothingWidth: 500
-  thresholdSRH: 7
+  thresholdSRH: 9
 --- !u!82 &1767640376
 AudioSource:
   m_ObjectHideFlags: 0

@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class DebugScaler : MonoBehaviour
 {
-    private float scaleMultiplier = 10;
+    private float scaleMultiplier = 5;
 
     public Vector3 minScale;
     public Vector3 maxScale;
@@ -33,7 +33,7 @@ public class DebugScaler : MonoBehaviour
 
     private void ScaleBasedOnLoudness()
     {
-        float currentLoudness = MicrophoneManager.instance.GetRawLoudness() * this.scaleMultiplier;
+        float currentLoudness = MicrophoneManager.instance.GetCurrentLoudness() * this.scaleMultiplier;
         double roundedLoudness = Math.Round(currentLoudness, 2);
 
 
@@ -44,7 +44,7 @@ public class DebugScaler : MonoBehaviour
 
     private void MoveBasedOnPitch()
     {
-        float currentPitch = MicrophoneManager.instance.GetNormalizedPitch();
+        float currentPitch = MicrophoneManager.instance.GetCurrentNormalizedPitch();
 
         if (float.IsNaN(currentPitch) == true || currentPitch < 0)
         {
@@ -53,12 +53,10 @@ public class DebugScaler : MonoBehaviour
         
         double roundedPitch = Math.Round(currentPitch, 2);
 
-        Debug.LogError("Pitch: " + roundedPitch);
+        //Debug.LogError("Raw Pitch: " + MicrophoneManager.instance.GetRawPitch() + "\nNormalized Pitch: " + currentPitch);
 
         this.targetPosition = Vector3.Lerp(this.bottomPosition, this.topPosition, (float)roundedPitch);
         Vector3 moveDirection = this.targetPosition - this.transform.position;
-
-        //this.transform.Translate(moveDirection.normalized * this.moveSpeed * Time.fixedDeltaTime);
 
         this.transform.localPosition = Vector3.Lerp(this.transform.localPosition, this.targetPosition, this.moveSpeed * Time.fixedDeltaTime);
     }

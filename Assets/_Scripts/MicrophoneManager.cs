@@ -4,9 +4,18 @@ using UnityEngine;
 
 public class MicrophoneManager : MonoBehaviour
 {
+    private const int WINDOW_SIZE = 5;    
+
     public static MicrophoneManager instance;
 
     public AudioPitchEstimator pitchEstimator;
+
+    public float minClampedPitch = 100;
+    public float maxClampedPitch = 400;
+
+    public float anomalousPitchDiffThreshold = 0.75f;
+
+    public float noiseGate = 0.001f;
 
     private AudioClip _recordedAudioClip;
 
@@ -23,6 +32,10 @@ public class MicrophoneManager : MonoBehaviour
 
     private string _device;
 
+    private Queue<float> _previousPitches;
+
+    private float _previousAverage = 0;
+
     private void Awake()
     {
         Application.targetFrameRate = 60;    
@@ -31,6 +44,8 @@ public class MicrophoneManager : MonoBehaviour
         {
             instance = this;
         }
+
+        this._previousPitches = new Queue<float>();
     }
 
     // Start is called before the first frame update
@@ -52,17 +67,87 @@ public class MicrophoneManager : MonoBehaviour
 
         if (sampleDelta > this._latencyInSamples)
         {
-            float[] audioClipData = new float[sampleDelta];
-            this._recordedAudioClip.GetData(audioClipData, this._previousSample);
-
-            this._currentLoudness = this.GetPeakLoudness(audioClipData);
-            
-            this._previousSample = Microphone.GetPosition(Microphone.devices[0]);
-
-            this._currentPitch = this.pitchEstimator.Estimate(this._audioSource);            
+            this.UpdateCurrentLoudness(sampleDelta);
 
             //Debug.LogError("Current Loudness: " + this._currentLoudness);
+
+            if (this._currentLoudness > this.noiseGate)
+            {
+                this.UpdateCurrentPitch();
+            }          
+            else
+            {
+                this.ResetPitchAverage();
+            }
         }
+    }
+
+    private void UpdateCurrentLoudness(int sampleDelta)
+    {
+        float[] audioClipData = new float[sampleDelta];
+        this._recordedAudioClip.GetData(audioClipData, this._previousSample);
+
+        this._currentLoudness = this.GetPeakLoudness(audioClipData);
+
+        this._previousSample = Microphone.GetPosition(Microphone.devices[0]);
+    }
+
+    private void UpdateCurrentPitch()
+    {
+        float latestRawPitchEstimate = this.pitchEstimator.Estimate(this._audioSource);
+
+        if (float.IsNaN(latestRawPitchEstimate) == true)
+        {
+            return;
+        }
+
+        //Debug.LogError("New Pitch: " + latestRawPitchEstimate + "\nNormalized: " + this.NormalizePitchValue(latestRawPitchEstimate) + " Average: " + this._previousAverage);
+
+        float latestNormalizedPitchEstimate = this.NormalizePitchValue(latestRawPitchEstimate);
+
+        if (this.IsPitchAnomalous(latestNormalizedPitchEstimate) == false)
+        {
+            this.UpdatePreviousPitchAverage(latestNormalizedPitchEstimate);
+            this._currentPitch = latestRawPitchEstimate;
+        }
+        else
+        {
+            Debug.LogError("Anomalous Pitch. SKIPPING!");
+        }
+    }
+
+    private bool IsPitchAnomalous(float testPitch)
+    {
+        //Debug.LogError("testPitch: " + testPitch + " Average: " + this._previousAverage + "\nDiff: " + Mathf.Abs(testPitch - this._previousAverage));
+
+        if (this._previousPitches.Count == 0)
+        {
+            return false;
+        }
+
+        return (Mathf.Abs(testPitch - this._previousAverage) > this.anomalousPitchDiffThreshold);
+    }
+
+    private void UpdatePreviousPitchAverage(float newPitch)
+    {
+        float intermediateTotal = this._previousAverage * this._previousPitches.Count;
+        if (this._previousPitches.Count == WINDOW_SIZE)
+        {
+            float poppedValue = this._previousPitches.Dequeue();
+            intermediateTotal -= poppedValue;
+        }
+
+        this._previousPitches.Enqueue(newPitch);
+
+        intermediateTotal += newPitch;
+
+        this._previousAverage = intermediateTotal / (float)this._previousPitches.Count;
+    }
+
+    private void ResetPitchAverage()
+    {
+        this._previousAverage = 0.0f;
+        this._previousPitches.Clear();
     }
 
     private int GetDistanceFromCurrentSample(int totalNumberOfSamples, int windowStart, int windowEnd)
@@ -73,21 +158,6 @@ public class MicrophoneManager : MonoBehaviour
         }
 
         return (windowEnd + totalNumberOfSamples) - windowStart;        
-    }
-
-    //Calculate Root Mean Square
-    private float GetLoudness(float[] audioClipData)
-    {
-        float squareSum = 0;
-
-        for (int i = 0; i < audioClipData.Length; i++)
-        {
-            squareSum = (audioClipData[i] * audioClipData[i]);
-        }
-
-        float averageOfSquares = squareSum / audioClipData.Length;
-
-        return Mathf.Sqrt(averageOfSquares);
     }
 
     private float GetPeakLoudness(float[] audioClipData)
@@ -106,37 +176,43 @@ public class MicrophoneManager : MonoBehaviour
         return peakValue;
     }
 
-    private float GetUnsignedPeakLoudness(float[] audioClipData)
-    {
-        float peakValue = 0.0f;
-
-        for (int i = 0; i < audioClipData.Length; i++)
-        {
-            float clipValue = Mathf.Abs(audioClipData[i]);
-            if (clipValue > peakValue)
-            {
-                peakValue = audioClipData[i];
-            }
-        }
-
-        return peakValue;
-    }
-
-    public float GetRawLoudness()
+    public float GetCurrentLoudness()
     {
         return this._currentLoudness;
     }
 
-    public float GetNormalizedPitch()
+    public float GetRawPitch()
+    {
+        return this._currentPitch;
+    }
+
+    public float GetCurrentNormalizedPitch()
     {
         if (float.IsNaN(this._currentPitch))
         {
             return float.NaN;
         }
-    
-        float numerator = this._currentPitch - this.pitchEstimator.frequencyMin;
-        float demoninator = this.pitchEstimator.frequencyMax - this.pitchEstimator.frequencyMin;        
 
-        return (numerator / demoninator);
+        float numerator = this._currentPitch - this.minClampedPitch;
+        float demoninator = this.maxClampedPitch - this.minClampedPitch;
+
+        float resultant = Mathf.Clamp((numerator / demoninator), 0.0f, 1.0f);
+
+        return resultant;
+    }
+
+    public float NormalizePitchValue(float pitch)
+    {
+        if (float.IsNaN(pitch))
+        {
+            return float.NaN;
+        }
+
+        float numerator = pitch - this.minClampedPitch;
+        float demoninator = this.maxClampedPitch - this.minClampedPitch;
+
+        float resultant = Mathf.Clamp((numerator / demoninator), 0.0f, 1.0f);
+
+        return resultant;
     }
 }
