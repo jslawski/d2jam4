@@ -13,7 +13,7 @@ public class MicrophoneManager : MonoBehaviour
     public float minClampedPitch = 100;
     public float maxClampedPitch = 400;
 
-    public float anomalousPitchDiffThreshold = 0.75f;
+    public float anomalousPitchDiffThreshold = 0.7f;
 
     public float noiseGate = 0.001f;
 
@@ -38,7 +38,7 @@ public class MicrophoneManager : MonoBehaviour
 
     private void Awake()
     {
-        Application.targetFrameRate = 60;    
+        Application.targetFrameRate = 144;    
     
         if (instance == null)
         {
@@ -77,6 +77,7 @@ public class MicrophoneManager : MonoBehaviour
             }          
             else
             {
+                //Debug.LogError("NOT LOUD ENOUGH! " + this._currentLoudness);
                 this.ResetPitchAverage();
             }
         }

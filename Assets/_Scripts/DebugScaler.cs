@@ -5,23 +5,20 @@ using UnityEngine;
 
 public class DebugScaler : MonoBehaviour
 {
-    private float scaleMultiplier = 5;
+    private float scaleMultiplier = 3;
 
     public Vector3 minScale;
     public Vector3 maxScale;
+
+    private Vector3 _targetScale;
 
     public Vector3 topPosition;
     public Vector3 bottomPosition;
 
     public Vector3 targetPosition = Vector3.zero;
-    public float moveSpeed = 5.0f;
+    public float moveSpeed = 10.0f;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        this.minScale = Vector3.one * 0.5f;
-        this.maxScale = Vector3.one * 2.0f;        
-    }
+    public float scaleSpeed = 1.0f;
 
     // Update is called once per frame
     void FixedUpdate()
@@ -36,10 +33,11 @@ public class DebugScaler : MonoBehaviour
         float currentLoudness = MicrophoneManager.instance.GetCurrentLoudness() * this.scaleMultiplier;
         double roundedLoudness = Math.Round(currentLoudness, 2);
 
+        this._targetScale = Vector3.Lerp(this.minScale, this.maxScale, (float)roundedLoudness);
 
         //Debug.LogError("Current Loudness: " + roundedLoudness);
 
-        this.transform.localScale = Vector3.Lerp(this.minScale, this.maxScale, (float)roundedLoudness);
+        this.transform.localScale = Vector3.Lerp(this.transform.localScale, this._targetScale, this.scaleSpeed * Time.fixedDeltaTime);
     }
 
     private void MoveBasedOnPitch()
