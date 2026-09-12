@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class MicrophoneManager : MonoBehaviour
 {
-    private const int WINDOW_SIZE = 5;    
+    private const int WINDOW_SIZE = 3;    
 
     public static MicrophoneManager instance;
 

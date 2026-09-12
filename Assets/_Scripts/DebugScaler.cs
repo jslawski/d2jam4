@@ -46,6 +46,7 @@ public class DebugScaler : MonoBehaviour
 
         if (float.IsNaN(currentPitch) == true || currentPitch < 0)
         {
+            this.targetPosition = this.transform.localPosition;
             return;
         }        
         
