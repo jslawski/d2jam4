@@ -500,7 +500,7 @@ MonoBehaviour:
   topPosition: {x: 0, y: 4, z: 0}
   bottomPosition: {x: 0, y: -4, z: 0}
   targetPosition: {x: 0, y: 0, z: 0}
-  moveSpeed: 1
+  moveSpeed: 3
   scaleSpeed: 10
 --- !u!1 &832575517
 GameObject:
@@ -600,7 +600,7 @@ MonoBehaviour:
   pitchEstimator: {fileID: 1767640375}
   minClampedPitch: 130
   maxClampedPitch: 350
-  anomalousPitchDiffThreshold: 0.7
+  anomalousPitchDiffThreshold: 0.8
   noiseGate: 0.025
   _audioSource: {fileID: 1767640376}
 --- !u!114 &1767640375
@@ -617,9 +617,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   frequencyMin: 70
   frequencyMax: 400
-  harmonicsToUse: 3
+  harmonicsToUse: 5
   smoothingWidth: 500
-  thresholdSRH: 5
+  thresholdSRH: 10
 --- !u!82 &1767640376
 AudioSource:
   m_ObjectHideFlags: 0

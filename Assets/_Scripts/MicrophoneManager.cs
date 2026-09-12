@@ -36,6 +36,11 @@ public class MicrophoneManager : MonoBehaviour
 
     private float _previousAverage = 0;
 
+    public float volumeMultiplier = 3.0f;
+
+    private float _minVolume = 0.0f;
+    private float _maxVolume = 0.2f;
+
     private void Awake()
     {
         Application.targetFrameRate = 144;    
@@ -177,9 +182,25 @@ public class MicrophoneManager : MonoBehaviour
         return peakValue;
     }
 
-    public float GetCurrentLoudness()
+    public float GetRawLoudness()
     {
         return this._currentLoudness;
+    }
+
+    public float GetScaledLoudness()
+    {
+        return this._currentLoudness * this.volumeMultiplier;
+    }
+
+    public float GetNormalizedLoudness()
+    {
+
+        float numerator = this.GetScaledLoudness() - this._minVolume;
+        float denominator = this._maxVolume - this._minVolume;
+
+        float resultant = Mathf.Clamp((numerator / denominator), 0.0f, 1.0f);
+
+        return resultant;
     }
 
     public float GetRawPitch()
@@ -195,9 +216,9 @@ public class MicrophoneManager : MonoBehaviour
         }
 
         float numerator = this._currentPitch - this.minClampedPitch;
-        float demoninator = this.maxClampedPitch - this.minClampedPitch;
+        float denominator = this.maxClampedPitch - this.minClampedPitch;
 
-        float resultant = Mathf.Clamp((numerator / demoninator), 0.0f, 1.0f);
+        float resultant = Mathf.Clamp((numerator / denominator), 0.0f, 1.0f);
 
         return resultant;
     }

@@ -30,7 +30,7 @@ public class DebugScaler : MonoBehaviour
 
     private void ScaleBasedOnLoudness()
     {
-        float currentLoudness = MicrophoneManager.instance.GetCurrentLoudness() * this.scaleMultiplier;
+        float currentLoudness = MicrophoneManager.instance.GetRawLoudness() * this.scaleMultiplier;
         double roundedLoudness = Math.Round(currentLoudness, 2);
 
         this._targetScale = Vector3.Lerp(this.minScale, this.maxScale, (float)roundedLoudness);
