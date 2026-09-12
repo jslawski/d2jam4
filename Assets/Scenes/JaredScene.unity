@@ -500,7 +500,7 @@ MonoBehaviour:
   topPosition: {x: 0, y: 4, z: 0}
   bottomPosition: {x: 0, y: -4, z: 0}
   targetPosition: {x: 0, y: 0, z: 0}
-  moveSpeed: 5
+  moveSpeed: 3
 --- !u!1 &832575517
 GameObject:
   m_ObjectHideFlags: 0
@@ -614,7 +614,7 @@ MonoBehaviour:
   frequencyMax: 500
   harmonicsToUse: 5
   smoothingWidth: 500
-  thresholdSRH: 5
+  thresholdSRH: 7
 --- !u!82 &1767640376
 AudioSource:
   m_ObjectHideFlags: 0
