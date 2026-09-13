@@ -4,11 +4,63 @@ using UnityEngine;
 
 public class FoodObject : MonoBehaviour
 {
-    private List<float> _beatOptions = new List<float> { 4.0f, 6.0f, 8.0f };
-    
-    [SerializeField]
+    private Rigidbody _foodRb;
+
+    public int pointsValue = 10;
+
+    private Vector3 _bounceVector;
+
     private Collider _foodCollider;
 
+    //Do disappearing stuff and "fall off" stuff
+
+    private void Awake()
+    {
+        this._bounceVector = new Vector3(-0.75f, 1.0f, 0.0f).normalized;
+
+        this._foodRb = GetComponent<Rigidbody>();
+        this._foodCollider = GetComponent<Collider>();
+    }
+
+    public void BounceFood()
+    {
+        this.transform.parent = null;
+        this._foodRb.isKinematic = false;
+        this._foodRb.useGravity = true;
+
+        this._foodCollider.enabled = false;
+
+        float randomMagnitude = Random.Range(4.0f, 6.0f); ;
+        Vector3 randomDirection = Random.onUnitSphere;
+
+        this._foodRb.AddForce(this._bounceVector * randomMagnitude, ForceMode.Impulse);
+        this._foodRb.AddTorque(randomDirection * randomMagnitude, ForceMode.Impulse);
+
+        Invoke("DestroyAfterDelay", 2.0f);
+
+        //AUDIO: Miss sound
+    }
+
+    public void EatFood()
+    {
+        //TODO: Do something with points value here
+        Destroy(this.gameObject);
+    }
+
+    public void ImmediatelyDestroyFood()
+    {
+        Destroy(this.gameObject);        
+    }
+
+    private void DestroyAfterDelay()
+    {
+        Destroy(this.gameObject);
+    }
+}
+
+
+/*
+    private List<float> _beatOptions = new List<float> { 4.0f, 6.0f, 8.0f };    
     public void LaunchFood(float targetXPosition)
     {
         float beatsToDestination = 4.0f;// this.GetRandomBeatsToDestination();
@@ -40,5 +92,4 @@ public class FoodObject : MonoBehaviour
     private float GetBoundXValue()
     {
         return this._foodCollider.bounds.max.x;
-    }
-}
+    }*/

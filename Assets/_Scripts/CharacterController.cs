@@ -7,7 +7,7 @@ public class CharacterController : MonoBehaviour
     private Vector3 _targetScale;
 
     private float _minYPosition = -4.0f;
-    private float _maxYPosition = 4.0f;
+    private float _maxYPosition = 4.5f;
     private float _targetYPosition = 0.0f;
     private Vector3 _targetPosition = Vector3.zero;
 
@@ -20,6 +20,7 @@ public class CharacterController : MonoBehaviour
     private float scaleSpeed = 10.0f;
 
     private FaceController _faceController;
+    private MouthController _mouthController;
 
     private void Awake()
     {
@@ -29,6 +30,7 @@ public class CharacterController : MonoBehaviour
         this._targetScale = this._minScale;
 
         this._faceController = GetComponent<FaceController>();
+        this._mouthController = GetComponentInChildren<MouthController>();
     }
 
     private void Update()
@@ -42,6 +44,7 @@ public class CharacterController : MonoBehaviour
         this._normalizedVolumeValue = MicrophoneManager.instance.GetNormalizedLoudness();
 
         this._faceController.UpdateFaceBlends(this._normalizedVolumeValue * 100.0f);
+        this._mouthController.UpdateFaceColliders(this._normalizedVolumeValue);
 
         //this.ScaleDebugObject();               
     }

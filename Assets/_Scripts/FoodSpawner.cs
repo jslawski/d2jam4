@@ -112,15 +112,6 @@ public class FoodSpawner : MonoBehaviour
         return (AudioSettings.dspTime * AudioSettings.outputSampleRate);
     }
 
-    private void SpawnFood()
-    {
-        Vector3 spawnPosition = new Vector3(this._xSpawn, Random.Range(this._minYSpawn, this._maxYSpawn), 0.0f);
-
-        GameObject spawnedFood = Instantiate(this.GetRandomFood(), spawnPosition, new Quaternion(), this.transform);
-        FoodObject foodComponent = spawnedFood.GetComponent<FoodObject>();
-        foodComponent.LaunchFood(this._playerXPosition);
-    }
-
     private void SpawnFoodCluster()
     {
         Vector3 spawnPosition = new Vector3(this._xSpawn, Random.Range(this._minYSpawn, this._maxYSpawn), 0.0f);
