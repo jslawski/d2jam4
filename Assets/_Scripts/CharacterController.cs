@@ -34,7 +34,7 @@ public class CharacterController : MonoBehaviour
     private void Update()
     {
         this.ApplyLoudnessChanges();
-        //this.ApplyPitchChanges();
+        this.ApplyPitchChanges();
     }
 
     private void ApplyLoudnessChanges()

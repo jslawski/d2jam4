@@ -9,8 +9,8 @@ public class FoodSpawner : MonoBehaviour
     public static int songBPM = 128;
 
     private float _xSpawn;
-    private float _minYSpawn;
-    private float _maxYSpawn;
+    public static float _minYSpawn;
+    public static float _maxYSpawn;
 
     private float _beatsPerSecond;
     private float _samplesPerBeat;
@@ -58,7 +58,7 @@ public class FoodSpawner : MonoBehaviour
     {
         this._previousBeatTimeInSamples = this.GetCurrentSampleTime();
 
-        float derp = this._samplesPerBeat * 16.0f;
+        float derp = this._samplesPerBeat * 4.0f;
 
         while (true)
         {
@@ -76,8 +76,8 @@ public class FoodSpawner : MonoBehaviour
     {
         BoxCollider spawnZone = this.GetComponent<BoxCollider>();
         this._xSpawn = spawnZone.gameObject.transform.position.x;
-        this._minYSpawn = spawnZone.bounds.min.y;
-        this._maxYSpawn = spawnZone.bounds.max.y;
+        FoodSpawner._minYSpawn = spawnZone.bounds.min.y;
+        FoodSpawner._maxYSpawn = spawnZone.bounds.max.y;
     }
 
     private double GetCurrentSampleTime()
@@ -87,7 +87,7 @@ public class FoodSpawner : MonoBehaviour
 
     private void SpawnFood()
     {
-        Vector3 spawnPosition = new Vector3(this._xSpawn, Random.Range(this._minYSpawn, this._maxYSpawn), 0.0f);
+        Vector3 spawnPosition = new Vector3(this._xSpawn, Random.Range(FoodSpawner._minYSpawn, FoodSpawner._maxYSpawn), 0.0f);
 
         GameObject spawnedFood = Instantiate(this.GetRandomFood(), spawnPosition, new Quaternion(), this.transform);
         FoodObject foodComponent = spawnedFood.GetComponent<FoodObject>();
@@ -96,13 +96,15 @@ public class FoodSpawner : MonoBehaviour
 
     private void SpawnFoodCluster()
     {
-        GameObject spawnedFood = Instantiate(this.GetRandomFood(), this.transform.position, new Quaternion(), this.transform);
+        Vector3 spawnPosition = new Vector3(this._xSpawn, Random.Range(FoodSpawner._minYSpawn, FoodSpawner._maxYSpawn), 0.0f);
+
+        GameObject spawnedFood = Instantiate(this.GetRandomFood(), spawnPosition, new Quaternion(), this.transform);
         FoodCluster foodComponent = spawnedFood.GetComponent<FoodCluster>();
         foodComponent.InitializeCluster(this._playerXPosition);
     }
 
     private GameObject GetRandomFood()
-    {
+    {        
         int randomIndex = Random.Range(0, this._allFoods.Length);
         return this._allFoods[randomIndex];
     }

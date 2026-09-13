@@ -5,15 +5,11 @@ using UnityEngine;
 public class FoodCluster : MonoBehaviour
 {
     [SerializeField]
-    private float _beatsOfSeparation = 0.5f;
+    private float _beatsOfSeparation = 2.0f;
 
     private float _distancePerBeat = 0.0f;
 
     private float _minX;
-    private float _minY;
-
-    private float _maxX;
-    private float _maxY;
 
     private float _moveSpeed;
     
@@ -30,6 +26,8 @@ public class FoodCluster : MonoBehaviour
     { 
         this._allColliders = GetComponentsInChildren<Collider>();
 
+        this.AdjustVerticalPosition();
+
         this.CalculateValues(targetXPosition);
         
         StartCoroutine(this.SpaceOutFood());
@@ -37,33 +35,56 @@ public class FoodCluster : MonoBehaviour
         StartCoroutine(this.MoveFood());
     }
 
+    private void AdjustVerticalPosition()
+    {
+        float minY = float.PositiveInfinity;
+        float maxY = float.NegativeInfinity;
+
+        for (int i = 0; i < this._allColliders.Length; i++)
+        {
+            Bounds currentBounds = this._allColliders[i].bounds;
+            if (currentBounds.max.y > maxY)
+            {
+                maxY = currentBounds.max.y;
+            }
+            if (currentBounds.min.y < minY)
+            {
+                minY = currentBounds.min.y;
+            }
+        }
+
+        float yAdjustment = 0.0f;
+
+        if (minY < FoodSpawner._minYSpawn)
+        { 
+            yAdjustment = FoodSpawner._minYSpawn - minY;
+        }
+
+        if (maxY > FoodSpawner._maxYSpawn)
+        {
+            yAdjustment = FoodSpawner._maxYSpawn - maxY;
+        }
+
+        this.transform.position = new Vector3(this.transform.position.x, this.transform.position.y + yAdjustment, this.transform.position.z);
+    }
+
     private void CalculateValues(float targetXPosition)
     {
-        float beatsToDestination = 4.0f;
+        float beatsToDestination = 12.0f;
         float beatsPerSecond = FoodSpawner.songBPM / 60.0f;
         float secondsToDestination = beatsToDestination / beatsPerSecond;
         float distanceToDestination = Mathf.Abs(targetXPosition - this._allColliders[0].bounds.max.x);
 
         this._moveSpeed = distanceToDestination / secondsToDestination;
         this._distancePerBeat = this._moveSpeed / beatsPerSecond;
-    }
+    }    
 
-    
     private IEnumerator SpaceOutFood()
     {
-    /*   
-    //First, unparent all children
-        for (int i = 0; i < this._allColliders.Length; i++)
-        {
-            this._allColliders[i].transform.parent = null;
-        }
-        */
         for (int i = 1; i < this._allColliders.Length; i++)
         {
             Collider collider1 = this._allColliders[i - 1];
             Collider collider2 = this._allColliders[i];
-
-            Debug.LogError("Collider1: " + collider1.gameObject.name + "\nCollider2: " + collider2.gameObject.name);
 
             float previousColliderXMin = collider1.bounds.min.x;
             float currentColliderXExtents = collider2.bounds.extents.x;            
@@ -76,15 +97,7 @@ public class FoodCluster : MonoBehaviour
             collider2.transform.position = new Vector3(newFoodXPosition, originalPosition.y, originalPosition.z);
 
             yield return new WaitForFixedUpdate();
-        }
-        /*
-        //Finally, re-parent all children again
-        for (int i = 0; i < this._allColliders.Length; i++)
-        {
-            this._allColliders[i].transform.parent = this.transform;
-        }
-        */
-        
+        }        
     }
 
     private IEnumerator MoveFood()

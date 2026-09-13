@@ -82,7 +82,7 @@ public class MicrophoneManager : MonoBehaviour
             }          
             else
             {
-                //Debug.LogError("NOT LOUD ENOUGH! " + this._currentLoudness);
+                Debug.LogError("NOT LOUD ENOUGH! " + this._currentLoudness);
                 this.ResetPitchAverage();
             }
         }
@@ -118,7 +118,7 @@ public class MicrophoneManager : MonoBehaviour
         }
         else
         {
-            Debug.LogError("Anomalous Pitch. SKIPPING!");
+            //Debug.LogError("Anomalous Pitch. SKIPPING!");
         }
     }
 
