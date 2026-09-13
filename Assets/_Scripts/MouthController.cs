@@ -70,8 +70,8 @@ public class MouthController : MonoBehaviour
     }
 
     private void OnTriggerEnter(Collider other)
-    {
-        if (this._currentFood == null)
+    {        
+        if (this._currentFood == null && this._mouthIsOpen == true)
         {
             this._currentFood = other.gameObject.GetComponent<FoodObject>();
             this._currentFood.isBeingEaten = true;
@@ -112,6 +112,9 @@ public class MouthController : MonoBehaviour
                 this._readyToSwallow = false;
                 this._currentFood = null;
                 this.AnimateNeckSwallow();
+
+                GameManager.instance.AddHealth();
+
                 AudioManager.instance.Play(this._swallowClip, this._channelSettings);
             }
             else

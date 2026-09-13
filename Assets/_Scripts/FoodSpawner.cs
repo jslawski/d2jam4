@@ -49,7 +49,7 @@ public class FoodSpawner : MonoBehaviour
         this._beatsPerSecond = this.songBPM / 60.0f;
         this._samplesPerBeat = Mathf.FloorToInt(AudioSettings.outputSampleRate / this._beatsPerSecond);
 
-        this._allFoods = Resources.LoadAll<GameObject>("FoodClusters");
+        this._allFoods = Resources.LoadAll<GameObject>("FoodClusters/Test");
     }
 
     // Update is called once per frame

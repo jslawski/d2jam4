@@ -46,6 +46,8 @@ public class FoodObject : MonoBehaviour
 
         this.isBeingEaten = false;
 
+        GameManager.instance.RemoveHealth();
+
         AudioManager.instance.Play(this._missClip, this._channelSettings);
 
         Invoke("DestroyAfterDelay", 2.0f);
@@ -66,6 +68,9 @@ public class FoodObject : MonoBehaviour
     public void ImmediatelyDestroyFood()
     {
         AudioManager.instance.Play(this._missClip, this._channelSettings);
+
+        GameManager.instance.RemoveHealth();
+
         Destroy(this.gameObject);        
     }
 

@@ -112,7 +112,7 @@ Material:
     - _Blend: 0
     - _BlendModePreserveSpecular: 1
     - _Brightness: 1
-    - _Bulge_Move: 0
+    - _Bulge_Move: 0.5
     - _Bulge_Power: 0.1
     - _Bulge_Width: -32.67
     - _BumpScale: 1
