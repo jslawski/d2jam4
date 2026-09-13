@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: bdfb5cc32c289984c893fbcaa23b468b
+guid: af5487b669eb17c41b06d8c77ccc775d
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
@@ -7,8 +7,8 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: submarineMat
-    second: {fileID: 2100000, guid: f73d1cc1f1bb4df45a0b152d395cd1c9, type: 2}
+      name: sausageMat
+    second: {fileID: 2100000, guid: ade89868491f83e4687407f35e302f80, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
@@ -95,7 +95,7 @@ ModelImporter:
     armStretch: 0.05
     legStretch: 0.05
     feetSpacing: 0
-    globalScale: 0.049999997
+    globalScale: 5
     rootMotionBoneName: 
     hasTranslationDoF: 0
     hasExtraRoot: 0
