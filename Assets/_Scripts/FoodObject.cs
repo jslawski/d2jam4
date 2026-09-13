@@ -12,7 +12,7 @@ public class FoodObject : MonoBehaviour
     public void LaunchFood(float targetXPosition)
     {
         float beatsToDestination = 4.0f;// this.GetRandomBeatsToDestination();
-        float beatsPerSecond = FoodSpawner.songBPM / 60.0f;
+        float beatsPerSecond = FoodSpawner.instance.songBPM / 60.0f;
         float secondsToDestination = beatsToDestination / beatsPerSecond;
         float distanceToDestination = Mathf.Abs(targetXPosition - this.GetBoundXValue());
 

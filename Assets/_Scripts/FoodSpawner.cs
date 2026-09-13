@@ -4,15 +4,17 @@ using UnityEngine;
 
 public class FoodSpawner : MonoBehaviour
 {
+    public static FoodSpawner instance;    
+
     public AudioSource _musicSource;
 
-    public static int songBPM = 128;
+    public int songBPM = 128;
 
     private float _xSpawn;
-    public static float _minYSpawn;
-    public static float _maxYSpawn;
+    public float _minYSpawn;
+    public float _maxYSpawn;
 
-    private float _beatsPerSecond;
+    public float _beatsPerSecond;
     private float _samplesPerBeat;
 
     private double _previousBeatTimeInSamples;
@@ -24,8 +26,15 @@ public class FoodSpawner : MonoBehaviour
 
     private float _playerXPosition;
 
+    private float _nextSpawnTimeInSamples;
+
     private void Awake()
     {
+        if (instance == null)
+        {
+            instance = this;
+        }
+
         this.SetupSpawnParameters();
         this._playerXPosition = this._playerTransform.position.x;
     }
@@ -33,7 +42,7 @@ public class FoodSpawner : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        this._beatsPerSecond = FoodSpawner.songBPM / 60.0f;
+        this._beatsPerSecond = this.songBPM / 60.0f;
         this._samplesPerBeat = Mathf.FloorToInt(AudioSettings.outputSampleRate / this._beatsPerSecond);
 
         this._allFoods = Resources.LoadAll<GameObject>("FoodClusters");
@@ -54,17 +63,23 @@ public class FoodSpawner : MonoBehaviour
         StartCoroutine(this.SpawnLogic());
     }
 
+    public void SetNextSpawnTime(float numBeats)
+    {
+        this._nextSpawnTimeInSamples = numBeats * this._samplesPerBeat;
+    }
+
     private IEnumerator SpawnLogic()
     {
         this._previousBeatTimeInSamples = this.GetCurrentSampleTime();
 
-        float derp = this._samplesPerBeat * 4.0f;
+        float derp = this._samplesPerBeat * 16.0f;
 
         while (true)
         {
-            if ((this.GetCurrentSampleTime() - this._previousBeatTimeInSamples >= derp))
+            if ((this.GetCurrentSampleTime() - this._previousBeatTimeInSamples >= this._nextSpawnTimeInSamples))
             {
                 this._previousBeatTimeInSamples = this.GetCurrentSampleTime();
+                this._nextSpawnTimeInSamples = float.PositiveInfinity;
                 this.SpawnFoodCluster();
             }
         
@@ -76,8 +91,8 @@ public class FoodSpawner : MonoBehaviour
     {
         BoxCollider spawnZone = this.GetComponent<BoxCollider>();
         this._xSpawn = spawnZone.gameObject.transform.position.x;
-        FoodSpawner._minYSpawn = spawnZone.bounds.min.y;
-        FoodSpawner._maxYSpawn = spawnZone.bounds.max.y;
+        this._minYSpawn = spawnZone.bounds.min.y;
+        this._maxYSpawn = spawnZone.bounds.max.y;
     }
 
     private double GetCurrentSampleTime()
@@ -87,7 +102,7 @@ public class FoodSpawner : MonoBehaviour
 
     private void SpawnFood()
     {
-        Vector3 spawnPosition = new Vector3(this._xSpawn, Random.Range(FoodSpawner._minYSpawn, FoodSpawner._maxYSpawn), 0.0f);
+        Vector3 spawnPosition = new Vector3(this._xSpawn, Random.Range(this._minYSpawn, this._maxYSpawn), 0.0f);
 
         GameObject spawnedFood = Instantiate(this.GetRandomFood(), spawnPosition, new Quaternion(), this.transform);
         FoodObject foodComponent = spawnedFood.GetComponent<FoodObject>();
@@ -96,7 +111,7 @@ public class FoodSpawner : MonoBehaviour
 
     private void SpawnFoodCluster()
     {
-        Vector3 spawnPosition = new Vector3(this._xSpawn, Random.Range(FoodSpawner._minYSpawn, FoodSpawner._maxYSpawn), 0.0f);
+        Vector3 spawnPosition = new Vector3(this._xSpawn, Random.Range(this._minYSpawn, this._maxYSpawn), 0.0f);
 
         GameObject spawnedFood = Instantiate(this.GetRandomFood(), spawnPosition, new Quaternion(), this.transform);
         FoodCluster foodComponent = spawnedFood.GetComponent<FoodCluster>();
@@ -104,7 +119,7 @@ public class FoodSpawner : MonoBehaviour
     }
 
     private GameObject GetRandomFood()
-    {        
+    {     
         int randomIndex = Random.Range(0, this._allFoods.Length);
         return this._allFoods[randomIndex];
     }

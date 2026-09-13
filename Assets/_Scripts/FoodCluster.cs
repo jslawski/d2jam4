@@ -15,6 +15,8 @@ public class FoodCluster : MonoBehaviour
     
     private Collider[] _allColliders;
 
+    private float _targetXPosition;
+
     //Get all colliders in cluster
     //Arrange the foods in order based on their order in the list (top food is furthest right)
     //The food's Y positions can be preserved
@@ -28,7 +30,9 @@ public class FoodCluster : MonoBehaviour
 
         this.AdjustVerticalPosition();
 
-        this.CalculateValues(targetXPosition);
+        this._targetXPosition = targetXPosition;
+
+        this.CalculateValues();
         
         StartCoroutine(this.SpaceOutFood());
 
@@ -55,25 +59,25 @@ public class FoodCluster : MonoBehaviour
 
         float yAdjustment = 0.0f;
 
-        if (minY < FoodSpawner._minYSpawn)
+        if (minY < FoodSpawner.instance._minYSpawn)
         { 
-            yAdjustment = FoodSpawner._minYSpawn - minY;
+            yAdjustment = FoodSpawner.instance._minYSpawn - minY;
         }
 
-        if (maxY > FoodSpawner._maxYSpawn)
+        if (maxY > FoodSpawner.instance._maxYSpawn)
         {
-            yAdjustment = FoodSpawner._maxYSpawn - maxY;
+            yAdjustment = FoodSpawner.instance._maxYSpawn - maxY;
         }
 
         this.transform.position = new Vector3(this.transform.position.x, this.transform.position.y + yAdjustment, this.transform.position.z);
     }
 
-    private void CalculateValues(float targetXPosition)
+    private void CalculateValues()
     {
         float beatsToDestination = 12.0f;
-        float beatsPerSecond = FoodSpawner.songBPM / 60.0f;
+        float beatsPerSecond = FoodSpawner.instance.songBPM / 60.0f;
         float secondsToDestination = beatsToDestination / beatsPerSecond;
-        float distanceToDestination = Mathf.Abs(targetXPosition - this._allColliders[0].bounds.max.x);
+        float distanceToDestination = Mathf.Abs(this._targetXPosition - this._allColliders[0].bounds.max.x);
 
         this._moveSpeed = distanceToDestination / secondsToDestination;
         this._distancePerBeat = this._moveSpeed / beatsPerSecond;
@@ -97,7 +101,19 @@ public class FoodCluster : MonoBehaviour
             collider2.transform.position = new Vector3(newFoodXPosition, originalPosition.y, originalPosition.z);
 
             yield return new WaitForFixedUpdate();
-        }        
+        }
+
+        this.SetNextClusterSpawnTime();
+    }
+
+    private void SetNextClusterSpawnTime()
+    {
+        float distancePerBeat = this._moveSpeed / FoodSpawner.instance._beatsPerSecond;
+        float xDistanceToTarget = Mathf.Abs(this._targetXPosition - this._allColliders[this._allColliders.Length - 1].bounds.max.x);
+
+        float numBeatsToTarget = (xDistanceToTarget / distancePerBeat);
+
+        FoodSpawner.instance.SetNextSpawnTime(numBeatsToTarget);
     }
 
     private IEnumerator MoveFood()
