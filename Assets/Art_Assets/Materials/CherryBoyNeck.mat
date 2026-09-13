@@ -20,7 +20,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: chicken
+  m_Name: CherryBoyNeck
   m_Shader: {fileID: -6465566751694194690, guid: db3136aa77aeb5b40a367ff201df5c7f,
     type: 3}
   m_Parent: {fileID: 0}
@@ -62,7 +62,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 9ab19f2e6eac7c24aa283570b96d0269, type: 3}
+        m_Texture: {fileID: 2800000, guid: d7781c53302a7b1479903f64e9e97852, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Matcap_Grunge:
@@ -74,7 +74,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Matcap_Texture:
-        m_Texture: {fileID: 2800000, guid: 5960e96eb25c89a43971a5af5d64d040, type: 3}
+        m_Texture: {fileID: 2800000, guid: 2f395b4728f2580468b5af742add02e2, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
@@ -112,9 +112,9 @@ Material:
     - _Blend: 0
     - _BlendModePreserveSpecular: 1
     - _Brightness: 1
-    - _Bulge_Move: 0.5
-    - _Bulge_Power: 0
-    - _Bulge_Width: 0
+    - _Bulge_Move: 0
+    - _Bulge_Power: 0.1
+    - _Bulge_Width: -32.67
     - _BumpScale: 1
     - _ClearCoatMask: 0
     - _ClearCoatSmoothness: 0
@@ -129,12 +129,12 @@ Material:
     - _Glossiness: 0
     - _GlossyReflections: 0
     - _Grunge_Strength: 1
-    - _Hardness: 0.4
-    - _Matcap_Strength: 0.032
+    - _Hardness: 0.33
+    - _Matcap_Strength: 0.132
     - _Metallic: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.005
-    - _Position: 0.6
+    - _Position: 0.73
     - _QueueControl: 0
     - _QueueOffset: 0
     - _ReceiveShadows: 1
@@ -153,7 +153,7 @@ Material:
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _Grunge_Offset: {r: 0, g: 0, b: 0, a: 0}
     - _Grunge_Tiling: {r: 1, g: 1, b: 0, a: 0}
-    - _LightAngle: {r: 1.35, g: 1, b: 0, a: 0}
+    - _LightAngle: {r: 1.79, g: 0.14, b: 0, a: 0}
     - _Main_Color_Tint: {r: 1, g: 1, b: 1, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
   m_BuildTextureStacks: []
