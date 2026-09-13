@@ -32,12 +32,22 @@ public class MouthController : MonoBehaviour
     [SerializeField]
     private Vector3 _bottomOpenPosition;
 
+    private AudioChannelSettings _channelSettings;
+    [SerializeField]
+    private AudioClip _swallowReadyClip;
+    [SerializeField]
+    private AudioClip _swallowClip;
+    [SerializeField]
+    private AudioClip _chokeClip;
+
     private void Awake()
     {
         if (instance == null)
         {
             instance = this;
         }
+
+        this._channelSettings = new AudioChannelSettings(false, 0.9f, 1.1f, 1.0f);
     }
 
     private void Update()
@@ -59,13 +69,12 @@ public class MouthController : MonoBehaviour
         if (this._currentFood == null)
         {
             this._currentFood = other.gameObject.GetComponent<FoodObject>();
-            //AUDIO: Food Obtained
+            this._currentFood.isBeingEaten = true;
         }
         else
         {
             other.gameObject.GetComponent<FoodObject>().BounceFood();
-            this._readyToSwallow = false;
-            //AUDIO: Choking
+            AudioManager.instance.Play(this._chokeClip, this._channelSettings);
         }
     }
 
@@ -74,6 +83,8 @@ public class MouthController : MonoBehaviour
         if (other.gameObject.GetComponent<FoodObject>() == this._currentFood)
         {
             this._readyToSwallow = true;
+            AudioManager.instance.Play(this._swallowReadyClip, this._channelSettings);
+            this._currentFood.Hide();
         }
     }
 
@@ -95,14 +106,13 @@ public class MouthController : MonoBehaviour
             {
                 this._readyToSwallow = false;
                 this._currentFood = null;
-                //TODO: Add points and other feedback here
-                //AUDIO: Swallow
+                AudioManager.instance.Play(this._swallowClip, this._channelSettings);
             }
             else
             {
                 this._currentFood.BounceFood();
                 this._currentFood = null;
-                //AUDIO: Choking
+                AudioManager.instance.Play(this._chokeClip, this._channelSettings);
             }
         }
 

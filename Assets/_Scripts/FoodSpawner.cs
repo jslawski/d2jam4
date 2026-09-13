@@ -114,7 +114,7 @@ public class FoodSpawner : MonoBehaviour
 
     private void SpawnFoodCluster()
     {
-        Vector3 spawnPosition = new Vector3(this._xSpawn, Random.Range(this._minYSpawn, this._maxYSpawn), 0.0f);
+        Vector3 spawnPosition = new Vector3(this._xSpawn, Random.Range(this._minYSpawn, this._maxYSpawn), this.transform.position.z);
 
         GameObject spawnedFood = Instantiate(this.GetRandomFood(), spawnPosition, new Quaternion(), this.transform);
         FoodCluster foodComponent = spawnedFood.GetComponent<FoodCluster>();

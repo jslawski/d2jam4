@@ -11,8 +11,12 @@ public class FoodObject : MonoBehaviour
     private Vector3 _bounceVector;
 
     private Collider _foodCollider;
+    private Renderer _foodRenderer;
 
-    //Do disappearing stuff and "fall off" stuff
+    public bool isBeingEaten = false;
+
+    private AudioChannelSettings _channelSettings;
+    private AudioClip _missClip;
 
     private void Awake()
     {
@@ -20,6 +24,10 @@ public class FoodObject : MonoBehaviour
 
         this._foodRb = GetComponent<Rigidbody>();
         this._foodCollider = GetComponent<Collider>();
+        this._foodRenderer = GetComponent<Renderer>();
+
+        this._channelSettings = new AudioChannelSettings(false, 0.9f, 1.1f, 1.0f);
+        this._missClip = Resources.Load<AudioClip>("Audio/miss");
     }
 
     public void BounceFood()
@@ -36,9 +44,17 @@ public class FoodObject : MonoBehaviour
         this._foodRb.AddForce(this._bounceVector * randomMagnitude, ForceMode.Impulse);
         this._foodRb.AddTorque(randomDirection * randomMagnitude, ForceMode.Impulse);
 
-        Invoke("DestroyAfterDelay", 2.0f);
+        this.isBeingEaten = false;
 
-        //AUDIO: Miss sound
+        AudioManager.instance.Play(this._missClip, this._channelSettings);
+
+        Invoke("DestroyAfterDelay", 2.0f);
+    }
+
+    public void Hide()
+    {
+        this._foodCollider.enabled = false;
+        this._foodRenderer.enabled = false;
     }
 
     public void EatFood()
@@ -49,6 +65,7 @@ public class FoodObject : MonoBehaviour
 
     public void ImmediatelyDestroyFood()
     {
+        AudioManager.instance.Play(this._missClip, this._channelSettings);
         Destroy(this.gameObject);        
     }
 
@@ -57,7 +74,6 @@ public class FoodObject : MonoBehaviour
         Destroy(this.gameObject);
     }
 }
-
 
 /*
     private List<float> _beatOptions = new List<float> { 4.0f, 6.0f, 8.0f };    

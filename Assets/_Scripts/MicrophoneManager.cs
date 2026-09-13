@@ -39,11 +39,12 @@ public class MicrophoneManager : MonoBehaviour
 
     private void Awake()
     {
-        for (int i = 0; i < Microphone.devices.Length; i++)
+    /*    
+    for (int i = 0; i < Microphone.devices.Length; i++)
         {
             Debug.LogError(Microphone.devices[i]);
         }
-
+        */
         Application.targetFrameRate = 144;    
     
         if (instance == null)

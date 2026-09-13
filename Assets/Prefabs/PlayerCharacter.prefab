@@ -93,8 +93,8 @@ Transform:
   m_GameObject: {fileID: 7804396120524723199}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0.42261827, z: -0, w: 0.9063079}
-  m_LocalPosition: {x: -1.0795, y: -0.435, z: 0.2734}
-  m_LocalScale: {x: 0.36497995, y: 0.65, z: 3.0493495}
+  m_LocalPosition: {x: -1.0614, y: -0.435, z: 0.295}
+  m_LocalScale: {x: 0.60404164, y: 0.65, z: 3.0493495}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1188972597143479515}
@@ -114,7 +114,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7804396120524723199}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -190,6 +190,9 @@ MonoBehaviour:
   _topOpenPosition: {x: -0.119, y: 0.363, z: -0.566}
   _bottomClosedPosition: {x: -0.061, y: -0.61, z: -0.496}
   _bottomOpenPosition: {x: -0.061, y: -0.873, z: -0.496}
+  _swallowReadyClip: {fileID: 8300000, guid: 6c52a55992244674aaede24e7e5e153b, type: 3}
+  _swallowClip: {fileID: 8300000, guid: 0224bf0f2ae1fb647a7a873ee51c35fe, type: 3}
+  _chokeClip: {fileID: 8300000, guid: aeb3d71e5b50ec646a491874a02ff7bc, type: 3}
 --- !u!1 &7881955942016840922
 GameObject:
   m_ObjectHideFlags: 0
@@ -240,7 +243,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7881955942016840922}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -358,7 +361,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9048668372146411536}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -437,17 +440,17 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: f2ea0132832f9bc4580db398a886a835,
         type: 3}
       propertyPath: m_LocalScale.x
-      value: 2
+      value: 2.99
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f2ea0132832f9bc4580db398a886a835,
         type: 3}
       propertyPath: m_LocalScale.y
-      value: 2
+      value: 2.99
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f2ea0132832f9bc4580db398a886a835,
         type: 3}
       propertyPath: m_LocalScale.z
-      value: 2
+      value: 2.99
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f2ea0132832f9bc4580db398a886a835,
         type: 3}
@@ -542,7 +545,7 @@ PrefabInstance:
     - target: {fileID: -5687290306035817651, guid: f2ea0132832f9bc4580db398a886a835,
         type: 3}
       propertyPath: m_BlendShapeWeights.Array.data[0]
-      value: 100
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: f2ea0132832f9bc4580db398a886a835,
         type: 3}
@@ -582,7 +585,7 @@ PrefabInstance:
     - target: {fileID: 4718536256865913342, guid: f2ea0132832f9bc4580db398a886a835,
         type: 3}
       propertyPath: m_BlendShapeWeights.Array.data[0]
-      value: 100
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6121396856177257996, guid: f2ea0132832f9bc4580db398a886a835,
         type: 3}
@@ -617,7 +620,7 @@ PrefabInstance:
     - target: {fileID: 6121396856177257996, guid: f2ea0132832f9bc4580db398a886a835,
         type: 3}
       propertyPath: m_BlendShapeWeights.Array.data[0]
-      value: 100
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8376870021370380499, guid: f2ea0132832f9bc4580db398a886a835,
         type: 3}
@@ -652,7 +655,7 @@ PrefabInstance:
     - target: {fileID: 8376870021370380499, guid: f2ea0132832f9bc4580db398a886a835,
         type: 3}
       propertyPath: m_BlendShapeWeights.Array.data[0]
-      value: 100
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8873123069485380919, guid: f2ea0132832f9bc4580db398a886a835,
         type: 3}
@@ -682,8 +685,13 @@ PrefabInstance:
     - target: {fileID: 8873123069485380919, guid: f2ea0132832f9bc4580db398a886a835,
         type: 3}
       propertyPath: m_BlendShapeWeights.Array.data[0]
-      value: 100
+      value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8940410183196017001, guid: f2ea0132832f9bc4580db398a886a835,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 628b497547336ac48a215327151d63c6, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:

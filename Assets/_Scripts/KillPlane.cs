@@ -6,7 +6,11 @@ public class KillPlane : MonoBehaviour
 {
     private void OnTriggerEnter(Collider other)
     {
-        other.gameObject.GetComponent<FoodObject>().ImmediatelyDestroyFood();
-        //AUDIO: Food Miss
+        FoodObject foodObject = other.gameObject.GetComponent<FoodObject>();
+
+        if (foodObject.isBeingEaten == false)
+        {
+            foodObject.ImmediatelyDestroyFood();
+        }
     }
 }
