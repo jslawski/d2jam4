@@ -7,11 +7,28 @@ public class FoodSpawner : MonoBehaviour
     public AudioSource _musicSource;
 
     public static int songBPM = 128;
-    
+
+    private float _xSpawn;
+    private float _minYSpawn;
+    private float _maxYSpawn;
+
     private float _beatsPerSecond;
     private float _samplesPerBeat;
 
     private double _previousBeatTimeInSamples;
+
+    private GameObject[] _allFoods;
+
+    [SerializeField]
+    private Transform _playerTransform;
+
+    private float _playerXPosition;
+
+    private void Awake()
+    {
+        this.SetupSpawnParameters();
+        this._playerXPosition = this._playerTransform.position.x;
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -19,6 +36,7 @@ public class FoodSpawner : MonoBehaviour
         this._beatsPerSecond = FoodSpawner.songBPM / 60.0f;
         this._samplesPerBeat = Mathf.FloorToInt(AudioSettings.outputSampleRate / this._beatsPerSecond);
 
+        this._allFoods = Resources.LoadAll<GameObject>("FoodClusters");
     }
 
     // Update is called once per frame
@@ -40,17 +58,26 @@ public class FoodSpawner : MonoBehaviour
     {
         this._previousBeatTimeInSamples = this.GetCurrentSampleTime();
 
+        float derp = this._samplesPerBeat * 16.0f;
+
         while (true)
         {
-            //Debug.LogError(AudioSettings.dspTime - this._previousBeatTime);
-            if ((this.GetCurrentSampleTime() - this._previousBeatTimeInSamples >= this._samplesPerBeat))
+            if ((this.GetCurrentSampleTime() - this._previousBeatTimeInSamples >= derp))
             {
                 this._previousBeatTimeInSamples = this.GetCurrentSampleTime();
-                this.SpawnFood();
+                this.SpawnFoodCluster();
             }
         
             yield return null;
         }
+    }
+
+    private void SetupSpawnParameters()
+    {
+        BoxCollider spawnZone = this.GetComponent<BoxCollider>();
+        this._xSpawn = spawnZone.gameObject.transform.position.x;
+        this._minYSpawn = spawnZone.bounds.min.y;
+        this._maxYSpawn = spawnZone.bounds.max.y;
     }
 
     private double GetCurrentSampleTime()
@@ -60,6 +87,23 @@ public class FoodSpawner : MonoBehaviour
 
     private void SpawnFood()
     {
-        Debug.LogError("SPAWN!");
+        Vector3 spawnPosition = new Vector3(this._xSpawn, Random.Range(this._minYSpawn, this._maxYSpawn), 0.0f);
+
+        GameObject spawnedFood = Instantiate(this.GetRandomFood(), spawnPosition, new Quaternion(), this.transform);
+        FoodObject foodComponent = spawnedFood.GetComponent<FoodObject>();
+        foodComponent.LaunchFood(this._playerXPosition);
+    }
+
+    private void SpawnFoodCluster()
+    {
+        GameObject spawnedFood = Instantiate(this.GetRandomFood(), this.transform.position, new Quaternion(), this.transform);
+        FoodCluster foodComponent = spawnedFood.GetComponent<FoodCluster>();
+        foodComponent.InitializeCluster(this._playerXPosition);
+    }
+
+    private GameObject GetRandomFood()
+    {
+        int randomIndex = Random.Range(0, this._allFoods.Length);
+        return this._allFoods[randomIndex];
     }
 }

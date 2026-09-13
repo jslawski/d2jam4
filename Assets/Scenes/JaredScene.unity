@@ -477,7 +477,7 @@ Transform:
   m_GameObject: {fileID: 414705584}
   serializedVersion: 2
   m_LocalRotation: {x: 0.2939725, y: -0.22412495, z: -0.22243057, w: 0.902149}
-  m_LocalPosition: {x: 0, y: 1, z: 0}
+  m_LocalPosition: {x: 8.01, y: 1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -555,6 +555,7 @@ GameObject:
   - component: {fileID: 972745755}
   - component: {fileID: 972745754}
   - component: {fileID: 972745753}
+  - component: {fileID: 972745756}
   m_Layer: 0
   m_Name: FoodSpawner
   m_TagString: Untagged
@@ -572,9 +573,9 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: ec2ebdeb0ac160e4b94ad1191f927574, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 94ff3463975a25049af926648bfa06fc, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.2
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -670,7 +671,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f84b2760c9857c4d9b7be1986e78b3f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _musicSource: {fileID: 0}
+  _musicSource: {fileID: 972745753}
+  _playerTransform: {fileID: 414705588}
 --- !u!4 &972745755
 Transform:
   m_ObjectHideFlags: 0
@@ -680,12 +682,33 @@ Transform:
   m_GameObject: {fileID: 972745752}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &972745756
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 972745752}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 8.65, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1767640371
 GameObject:
   m_ObjectHideFlags: 0
