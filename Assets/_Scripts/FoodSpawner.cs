@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class FoodSpawner : MonoBehaviour
 {
@@ -23,6 +24,9 @@ public class FoodSpawner : MonoBehaviour
 
     [SerializeField]
     private Transform _playerTransform;
+
+    [SerializeField]
+    private GameObject _optionsCanvas;
 
     private float _playerXPosition;
 
@@ -51,9 +55,19 @@ public class FoodSpawner : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyUp(KeyCode.P))
+        if (Input.GetKeyUp(KeyCode.S))
         {
             this.StartFoodSpawning();
+        }
+
+        if (Input.GetKeyUp(KeyCode.O))
+        {
+            this._optionsCanvas.SetActive(!this._optionsCanvas.activeSelf);
+        }
+
+        if (Input.GetKeyUp(KeyCode.R))
+        {
+            SceneManager.LoadScene(0);
         }
     }
 
@@ -71,8 +85,6 @@ public class FoodSpawner : MonoBehaviour
     private IEnumerator SpawnLogic()
     {
         this._previousBeatTimeInSamples = this.GetCurrentSampleTime();
-
-        float derp = this._samplesPerBeat * 16.0f;
 
         while (true)
         {

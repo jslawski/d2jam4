@@ -30,19 +30,20 @@ public class MicrophoneManager : MonoBehaviour
     private float _currentLoudness = 0;
     private float _currentPitch = 0;
 
-    private string _device;
-
     private Queue<float> _previousPitches;
 
     private float _previousAverage = 0;
-
-    public float volumeMultiplier = 3.0f;
 
     private float _minVolume = 0.0f;
     private float _maxVolume = 0.2f;
 
     private void Awake()
     {
+        for (int i = 0; i < Microphone.devices.Length; i++)
+        {
+            Debug.LogError(Microphone.devices[i]);
+        }
+
         Application.targetFrameRate = 144;    
     
         if (instance == null)
@@ -55,12 +56,10 @@ public class MicrophoneManager : MonoBehaviour
 
     // Start is called before the first frame update
     void Start()
-    {
-        this._device = Microphone.devices[0];
-        
+    {        
         this._latencyInSamples = Mathf.FloorToInt(AudioSettings.outputSampleRate * this._latencyInSeconds);
 
-        this._recordedAudioClip = Microphone.Start(Microphone.devices[0], true, 1, AudioSettings.outputSampleRate);
+        this._recordedAudioClip = Microphone.Start(GameOptions.device, true, 1, AudioSettings.outputSampleRate);
 
         this._audioSource.clip = this._recordedAudioClip;
         this._audioSource.Play();
@@ -68,7 +67,7 @@ public class MicrophoneManager : MonoBehaviour
 
     private void Update()
     {            
-        int sampleDelta = this.GetDistanceFromCurrentSample(AudioSettings.outputSampleRate, this._previousSample, Microphone.GetPosition(this._device));
+        int sampleDelta = this.GetDistanceFromCurrentSample(AudioSettings.outputSampleRate, this._previousSample, Microphone.GetPosition(GameOptions.device));
 
         if (sampleDelta > this._latencyInSamples)
         {
@@ -95,7 +94,7 @@ public class MicrophoneManager : MonoBehaviour
 
         this._currentLoudness = this.GetPeakLoudness(audioClipData);
 
-        this._previousSample = Microphone.GetPosition(Microphone.devices[0]);
+        this._previousSample = Microphone.GetPosition(GameOptions.device);
     }
 
     private void UpdateCurrentPitch()
@@ -189,7 +188,7 @@ public class MicrophoneManager : MonoBehaviour
 
     public float GetScaledLoudness()
     {
-        return this._currentLoudness * this.volumeMultiplier;
+        return this._currentLoudness * GameOptions.volumeMultiplier;
     }
 
     public float GetNormalizedLoudness()
@@ -236,5 +235,15 @@ public class MicrophoneManager : MonoBehaviour
         float resultant = Mathf.Clamp((numerator / demoninator), 0.0f, 1.0f);
 
         return resultant;
+    }
+
+    public void Refresh()
+    {
+        this._audioSource.Stop();    
+    
+        this._recordedAudioClip = Microphone.Start(GameOptions.device, true, 1, AudioSettings.outputSampleRate);
+
+        this._audioSource.clip = this._recordedAudioClip;
+        this._audioSource.Play();
     }
 }
