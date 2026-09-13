@@ -19,28 +19,31 @@ public class CharacterController : MonoBehaviour
     private float moveSpeed = 3.0f;
     private float scaleSpeed = 10.0f;
 
+    private FaceController _faceController;
+
     private void Awake()
     {
         this._minScale = Vector3.one * 0.5f;
         this._maxScale = Vector3.one * 3.0f;
 
         this._targetScale = this._minScale;
+
+        this._faceController = GetComponent<FaceController>();
     }
 
     private void Update()
     {
         this.ApplyLoudnessChanges();
-        this.ApplyPitchChanges();
+        //this.ApplyPitchChanges();
     }
 
     private void ApplyLoudnessChanges()
     {
         this._normalizedVolumeValue = MicrophoneManager.instance.GetNormalizedLoudness();
 
-        this._targetVolumeValue = Mathf.Lerp(0.0f, 100.0f, this._normalizedVolumeValue);
-        //Use TargetVolumeValue to manipulate blend shapes
+        this._faceController.UpdateFaceBlends(this._normalizedVolumeValue * 100.0f);
 
-        this.ScaleDebugObject();               
+        //this.ScaleDebugObject();               
     }
 
     private void ScaleDebugObject()

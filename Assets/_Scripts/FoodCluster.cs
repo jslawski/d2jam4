@@ -5,7 +5,7 @@ using UnityEngine;
 public class FoodCluster : MonoBehaviour
 {
     [SerializeField]
-    private float _beatsOfSeparation = 1;
+    private float _beatsOfSeparation = 0.5f;
 
     private float _distancePerBeat = 0.0f;
 
