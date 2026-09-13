@@ -425,6 +425,11 @@ PrefabInstance:
       propertyPath: m_AABB.m_Extent.z
       value: 0.04521033
       objectReference: {fileID: 0}
+    - target: {fileID: -5687290306035817651, guid: f2ea0132832f9bc4580db398a886a835,
+        type: 3}
+      propertyPath: m_BlendShapeWeights.Array.data[0]
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: f2ea0132832f9bc4580db398a886a835,
         type: 3}
       propertyPath: m_Name
@@ -460,6 +465,11 @@ PrefabInstance:
       propertyPath: m_AABB.m_Extent.z
       value: 0.048738327
       objectReference: {fileID: 0}
+    - target: {fileID: 4718536256865913342, guid: f2ea0132832f9bc4580db398a886a835,
+        type: 3}
+      propertyPath: m_BlendShapeWeights.Array.data[0]
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6121396856177257996, guid: f2ea0132832f9bc4580db398a886a835,
         type: 3}
       propertyPath: m_DirtyAABB
@@ -489,6 +499,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AABB.m_Extent.z
       value: 0.14325474
+      objectReference: {fileID: 0}
+    - target: {fileID: 6121396856177257996, guid: f2ea0132832f9bc4580db398a886a835,
+        type: 3}
+      propertyPath: m_BlendShapeWeights.Array.data[0]
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8376870021370380499, guid: f2ea0132832f9bc4580db398a886a835,
         type: 3}
@@ -520,6 +535,11 @@ PrefabInstance:
       propertyPath: m_AABB.m_Extent.z
       value: 0.06356922
       objectReference: {fileID: 0}
+    - target: {fileID: 8376870021370380499, guid: f2ea0132832f9bc4580db398a886a835,
+        type: 3}
+      propertyPath: m_BlendShapeWeights.Array.data[0]
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8873123069485380919, guid: f2ea0132832f9bc4580db398a886a835,
         type: 3}
       propertyPath: m_DirtyAABB
@@ -544,6 +564,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AABB.m_Extent.z
       value: 0.39493576
+      objectReference: {fileID: 0}
+    - target: {fileID: 8873123069485380919, guid: f2ea0132832f9bc4580db398a886a835,
+        type: 3}
+      propertyPath: m_BlendShapeWeights.Array.data[0]
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
