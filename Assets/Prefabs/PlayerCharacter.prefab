@@ -193,6 +193,7 @@ MonoBehaviour:
   _swallowReadyClip: {fileID: 8300000, guid: 6c52a55992244674aaede24e7e5e153b, type: 3}
   _swallowClip: {fileID: 8300000, guid: 0224bf0f2ae1fb647a7a873ee51c35fe, type: 3}
   _chokeClip: {fileID: 8300000, guid: aeb3d71e5b50ec646a491874a02ff7bc, type: 3}
+  _neckMaterial: {fileID: 2100000, guid: 628b497547336ac48a215327151d63c6, type: 2}
 --- !u!1 &7881955942016840922
 GameObject:
   m_ObjectHideFlags: 0

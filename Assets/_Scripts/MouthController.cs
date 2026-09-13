@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -33,12 +34,16 @@ public class MouthController : MonoBehaviour
     private Vector3 _bottomOpenPosition;
 
     private AudioChannelSettings _channelSettings;
+
     [SerializeField]
     private AudioClip _swallowReadyClip;
     [SerializeField]
     private AudioClip _swallowClip;
     [SerializeField]
     private AudioClip _chokeClip;
+
+    [SerializeField]
+    private Material _neckMaterial;
 
     private void Awake()
     {
@@ -106,6 +111,7 @@ public class MouthController : MonoBehaviour
             {
                 this._readyToSwallow = false;
                 this._currentFood = null;
+                this.AnimateNeckSwallow();
                 AudioManager.instance.Play(this._swallowClip, this._channelSettings);
             }
             else
@@ -117,6 +123,15 @@ public class MouthController : MonoBehaviour
         }
 
         this._mouthIsOpen = false;
+    }
+
+    private void AnimateNeckSwallow()
+    {
+        float currentValue = 0.0f;
+        DOTween.To(() => currentValue, x => currentValue = x, 0.5f, 0.5f)
+            .OnUpdate(() => {
+                this._neckMaterial.SetFloat("_Bulge_Move", currentValue);
+            });
     }
 
     public void UpdateFaceColliders(float normalizedLoudness)
