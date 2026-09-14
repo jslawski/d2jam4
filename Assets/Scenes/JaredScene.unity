@@ -3377,57 +3377,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1746546492}
   m_CullTransparentMesh: 1
---- !u!1 &1767640371
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1767640373}
-  - component: {fileID: 1767640374}
-  m_Layer: 0
-  m_Name: MicrophoneReader
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1767640373
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1767640371}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1767640374
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1767640371}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 071f0561410b9bc4f85c2d944bc918f5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  pitchEstimator: {fileID: 0}
-  minClampedPitch: 130
-  maxClampedPitch: 350
-  anomalousPitchDiffThreshold: 0.8
-  noiseGate: 0.025
-  _audioMixerGroup: {fileID: 3409864211182423686, guid: cb6c7ddafd63b33488837b94fcde4a3a,
-    type: 2}
 --- !u!1 &1786344828
 GameObject:
   m_ObjectHideFlags: 0
@@ -4740,7 +4689,6 @@ SceneRoots:
   - {fileID: 330585546}
   - {fileID: 410087041}
   - {fileID: 832575519}
-  - {fileID: 1767640373}
   - {fileID: 414705588}
   - {fileID: 972745755}
   - {fileID: 2282646632975326141}

@@ -53,6 +53,7 @@ public class MicrophoneManager : MonoBehaviour
         }
         */
           
+        DontDestroyOnLoad(this);
 
         instance = this;
 
