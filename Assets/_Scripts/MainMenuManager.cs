@@ -19,6 +19,6 @@ public class MainMenuManager : MonoBehaviour
 
     public void PlayButtonClicked()
     {
-        SceneManager.LoadScene("JaredScene");
+        SceneLoader.instance.LoadScene("JaredScene");        
     }
 }

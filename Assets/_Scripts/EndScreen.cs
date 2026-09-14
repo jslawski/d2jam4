@@ -58,11 +58,11 @@ public class EndScreen : MonoBehaviour
 
     public void RetryPressed()
     {
-        SceneManager.LoadScene("JaredScene");
+        SceneLoader.instance.LoadScene("JaredScene");
     }
 
     public void MenuPressed()
     {
-        SceneManager.LoadScene("MainMenu");
+        SceneLoader.instance.LoadScene("MainMenu");        
     }
 }
