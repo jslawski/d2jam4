@@ -22,6 +22,9 @@ public class GameManager : MonoBehaviour
     private GameObject _characterControllerObject;
 
     [SerializeField]
+    private GameObject _transitionObject;
+
+    [SerializeField]
     private GameObject _endScreen;
 
     public float currentHealth = 1.0f;
@@ -81,6 +84,7 @@ public class GameManager : MonoBehaviour
         MusicManager.instance.StartMusic();
         FoodSpawner.instance.StartFoodSpawning();
         MicrophoneManager.instance.ActivateMicInput();
+        CherryPopper.instance.PopAndBark();
     }
 
     public void EndGame()
@@ -88,8 +92,13 @@ public class GameManager : MonoBehaviour
         this._timer.StopTimer();
         FoodSpawner.instance.StopFoodSpawning();
         FoodSpawner.instance.DestroyAllFood();
-        //MicrophoneManager.instance.StopMicInput();
+        StartCoroutine(EndSequence());
+    }
 
+    private IEnumerator EndSequence()
+    {
+        this._transitionObject.SetActive(true);
+        yield return new WaitForSeconds(2.0f);
         this._endScreen.SetActive(true);
     }
 

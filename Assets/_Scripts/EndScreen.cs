@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -6,6 +7,9 @@ using UnityEngine.SceneManagement;
 
 public class EndScreen : MonoBehaviour
 {
+    [SerializeField]
+    private RectTransform _rectTransform;
+
     [SerializeField]
     private TextMeshProUGUI _latestFoodsEaten;
     [SerializeField]
@@ -54,6 +58,8 @@ public class EndScreen : MonoBehaviour
         this._bestFoodsEaten.text = foodsEatenPB.ToString();
         this._bestBestStreak.text = streakPB.ToString();
         this._bestTime.text = GameManager.instance._timer.ConvertTimeToString(timePB);
+
+        this._rectTransform.DOScale(1.0f, 0.5f).SetEase(Ease.OutBack);
     }
 
     public void RetryPressed()

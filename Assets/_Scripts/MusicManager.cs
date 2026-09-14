@@ -16,6 +16,10 @@ public class MusicManager : MonoBehaviour
 
     public bool _gameStarted = false;
 
+    public AudioClip[] _voicelines;
+
+    private AudioChannelSettings _channelSettings;
+
     private void Awake()
     {
         this._audioSources = GetComponents<AudioSource>();
@@ -24,6 +28,10 @@ public class MusicManager : MonoBehaviour
         {
             instance = this;
         }
+
+        this._voicelines = Resources.LoadAll<AudioClip>("Voicelines");
+
+        this._channelSettings = new AudioChannelSettings(false, 1.0f, 1.0f, 0.5f, "SFX");
     }
 
     private void FixedUpdate()

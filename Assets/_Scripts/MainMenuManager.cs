@@ -5,10 +5,13 @@ using UnityEngine.SceneManagement;
 
 public class MainMenuManager : MonoBehaviour
 {
+    public AudioClip goodbye;
+    private AudioChannelSettings channelSettings;
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        this.channelSettings = new AudioChannelSettings(false, 1.0f, 1.0f, 0.5f, "SFX");
     }
 
     // Update is called once per frame
@@ -24,6 +27,15 @@ public class MainMenuManager : MonoBehaviour
 
     public void ExitButtonClicked()
     {
+        StartCoroutine(this.SayGoodbyeAndQuit());
+    }
+
+    private IEnumerator SayGoodbyeAndQuit()
+    {
+        AudioManager.instance.Play(this.goodbye, this.channelSettings);
+
+        yield return new WaitForSeconds(1.0f);
+
         SceneLoader.instance.QuitGame();
     }
 }
