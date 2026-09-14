@@ -21,4 +21,9 @@ public class MainMenuManager : MonoBehaviour
     {
         SceneLoader.instance.LoadScene("JaredScene");        
     }
+
+    public void ExitButtonClicked()
+    {
+        SceneLoader.instance.QuitGame();
+    }
 }

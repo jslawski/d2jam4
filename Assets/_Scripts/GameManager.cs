@@ -44,38 +44,14 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyUp(KeyCode.S))
-        {
-            this.StartGame();
-        }
-
-        if (Input.GetKeyUp(KeyCode.O))
-        {
-            this._optionsCanvas.SetActive(!this._optionsCanvas.activeSelf);
-        }
-
         if (Input.GetKeyUp(KeyCode.R))
         {
-            //this.ResetGame();    
-
-            //MicrophoneManager.instance.ClearAudioData();
-
-            SceneManager.LoadScene("JaredScene");
-            
+            SceneManager.LoadScene("JaredScene");     
         }
 
-        if (Input.GetKeyUp(KeyCode.Q))
+        if (Input.GetKeyUp(KeyCode.Escape))
         {
-            this.RemoveHealth();
-        }
-        if (Input.GetKeyUp(KeyCode.W))
-        {
-            this.AddHealth();
-        }
-
-        if (Input.GetKeyUp(KeyCode.E))
-        {
-            this.EndGame();
+            SceneLoader.instance.LoadScene("MainMenu");
         }
     }
 

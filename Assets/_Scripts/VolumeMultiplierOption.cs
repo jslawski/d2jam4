@@ -14,7 +14,7 @@ public class VolumeMultiplierOption : MonoBehaviour
 
     [SerializeField]
     private TextMeshProUGUI _valueText;
-
+    /*
     // Update is called once per frame
     void Update()
     {
@@ -29,13 +29,13 @@ public class VolumeMultiplierOption : MonoBehaviour
             this._micImage.color = Color.green;
         }
     }
-
+    */
     public void OnValueUpdate()
     {
         GameOptions.volumeMultiplier = this._slider.value;
 
         float roundedValue = (float)System.Math.Round(this._slider.value, 1);
 
-        this._valueText.text = roundedValue.ToString();
+        //this._valueText.text = roundedValue.ToString();
     }
 }
