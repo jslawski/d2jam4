@@ -131,7 +131,7 @@ Material:
     - _GlossyReflections: 0
     - _Grunge_Strength: 1
     - _Hardness: 0.4
-    - _Matcap_Strength: 0
+    - _Matcap_Strength: 0.038
     - _Metallic: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.005
