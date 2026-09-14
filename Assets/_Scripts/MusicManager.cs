@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class MusicManager : MonoBehaviour
 {
+    public static MusicManager instance;
+
     [SerializeField]
     private AudioSource[] _audioSources;
 
@@ -12,14 +14,38 @@ public class MusicManager : MonoBehaviour
 
     private float _maxVolume = 0.3f;
 
+    private bool _gameStarted = false;
+
     private void Awake()
     {
         this._audioSources = GetComponents<AudioSource>();
+
+        if (instance == null)
+        {
+            instance = this;
+        }
     }
 
     private void FixedUpdate()
     {
+        if (this._gameStarted == false)
+        {
+            return;
+        }
+
         this.UpdateMusic();
+    }
+
+    public void StartMusic()
+    {
+        this._audioSources[0].volume = this._maxVolume;
+        this._audioSources[0].Play();
+    
+        for (int i = 1; i < this._audioSources.Length; i++)
+        {
+            this._audioSources[i].volume = 0.0f;    
+            this._audioSources[i].Play();
+        }
     }
 
     public void UpdateMusic()

@@ -6,8 +6,8 @@ public class CharacterController : MonoBehaviour
     private Vector3 _maxScale;
     private Vector3 _targetScale;
 
-    private float _minYPosition = -2.75f;
-    private float _maxYPosition = 5.0f;
+    public float _minYPosition = -2.75f;
+    public float _maxYPosition = 5.0f;
     private float _targetYPosition = 0.0f;
     private Vector3 _targetPosition = Vector3.zero;
 
@@ -51,6 +51,11 @@ public class CharacterController : MonoBehaviour
 
     private void ApplyPitchChanges()
     {
+        if (this._normalizedVolumeValue <= MicrophoneManager.instance.noiseGate)
+        {
+            return;
+        }
+
         this._normalizedPitchValue = MicrophoneManager.instance.GetCurrentNormalizedPitch();
         this._targetYPosition = Mathf.Lerp(this._minYPosition, this._maxYPosition, this._normalizedPitchValue);
         

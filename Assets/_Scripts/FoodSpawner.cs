@@ -77,6 +77,8 @@ public class FoodSpawner : MonoBehaviour
     {
         this._previousBeatTimeInSamples = this.GetCurrentSampleTime();
 
+        this.SetNextSpawnTime(4.0f);
+
         while (true)
         {
             if ((this.GetCurrentSampleTime() - this._previousBeatTimeInSamples >= this._nextSpawnTimeInSamples))

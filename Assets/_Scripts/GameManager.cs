@@ -33,11 +33,6 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private void Start()
-    {
-        this.StartGame();
-    }
-
     void Update()
     {
         if (Input.GetKeyUp(KeyCode.S))
@@ -93,6 +88,7 @@ public class GameManager : MonoBehaviour
     public void StartGame()
     {
         this._timer.StartTimer();
+        MusicManager.instance.StartMusic();
         FoodSpawner.instance.StartFoodSpawning();        
     }
 
