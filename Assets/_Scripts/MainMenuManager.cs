@@ -8,6 +8,8 @@ public class MainMenuManager : MonoBehaviour
     public AudioClip goodbye;
     private AudioChannelSettings channelSettings;
 
+    public AudioSource bgm;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -32,9 +34,10 @@ public class MainMenuManager : MonoBehaviour
 
     private IEnumerator SayGoodbyeAndQuit()
     {
+        this.bgm.Stop();    
         AudioManager.instance.Play(this.goodbye, this.channelSettings);
 
-        yield return new WaitForSeconds(1.0f);
+        yield return new WaitForSeconds(2.0f);
 
         SceneLoader.instance.QuitGame();
     }

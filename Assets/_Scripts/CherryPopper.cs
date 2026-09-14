@@ -36,6 +36,7 @@ public class CherryPopper : MonoBehaviour
     {
         StopAllCoroutines();
         StartCoroutine(this.PopCherry());
+        this.RollForVoiceline();
     }
 
     public void RollForVoiceline()
