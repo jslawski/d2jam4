@@ -83,6 +83,7 @@ Material:
     - _CameraFarFadeDistance: 2
     - _CameraNearFadeDistance: 1
     - _CastShadows: 1
+    - _Clip: 0.5
     - _ColorMode: 0
     - _Cull: 2
     - _Cutoff: 0.5
@@ -110,7 +111,7 @@ Material:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _BaseColorAddSubDiff: {r: 0, g: 0, b: 0, a: 0}
     - _CameraFadeParams: {r: 0, g: 0, b: 0, a: 0}
-    - _Color: {r: 21.112127, g: 16.501371, b: 0.86307055, a: 1}
+    - _Color: {r: 5.9921575, g: 4.683508, b: 0.2449613, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _SoftParticleFadeParams: {r: 0, g: 0, b: 0, a: 0}
     - _Texture_Scroll_Speed: {r: 0, g: 0, b: 0, a: 0}
