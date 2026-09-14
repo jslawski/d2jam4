@@ -103,9 +103,9 @@ public class FoodCluster : MonoBehaviour
             float distanceFromPreviousFood = (this._moveSpeed * this._secondsBetweenFoods) + currentColliderXExtents - (this._moveSpeed * Time.fixedDeltaTime);
             float newFoodXPosition = previousColliderXMin - distanceFromPreviousFood;
 
-            Vector3 originalPosition = collider2.transform.position;
+            Vector3 originalPosition = collider2.transform.parent.position;
 
-            collider2.transform.position = new Vector3(newFoodXPosition, originalPosition.y, originalPosition.z);
+            collider2.transform.parent.position = new Vector3(newFoodXPosition, originalPosition.y, originalPosition.z);
 
             yield return new WaitForFixedUpdate();
         }

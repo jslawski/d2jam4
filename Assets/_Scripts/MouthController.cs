@@ -45,6 +45,9 @@ public class MouthController : MonoBehaviour
     [SerializeField]
     private Material _neckMaterial;
 
+    [SerializeField]
+    private ParticleSystem _mouthParticles;
+
     private void Awake()
     {
         if (instance == null)
@@ -114,6 +117,8 @@ public class MouthController : MonoBehaviour
                 this.AnimateNeckSwallow();
 
                 GameManager.instance.AddHealth();
+
+                this._mouthParticles.Play();
 
                 AudioManager.instance.Play(this._swallowClip, this._channelSettings);
             }

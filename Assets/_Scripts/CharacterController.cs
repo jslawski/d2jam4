@@ -7,7 +7,8 @@ public class CharacterController : MonoBehaviour
     private Vector3 _targetScale;
 
     public float _minYPosition = -2.75f;
-    public float _maxYPosition = 5.0f;
+    public float _maxYPosition = 5.0f;    
+    
     private float _targetYPosition = 0.0f;
     private Vector3 _targetPosition = Vector3.zero;
 

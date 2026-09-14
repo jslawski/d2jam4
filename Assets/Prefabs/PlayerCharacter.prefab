@@ -46,6 +46,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9df0eb1979f48fa42aa9b54ee9d9cccc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _minYPosition: -2.75
+  _maxYPosition: 5
 --- !u!114 &4009128608424602760
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -93,8 +95,8 @@ Transform:
   m_GameObject: {fileID: 7804396120524723199}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0.42261827, z: -0, w: 0.9063079}
-  m_LocalPosition: {x: -1.0614, y: -0.435, z: 0.295}
-  m_LocalScale: {x: 0.60404164, y: 0.65, z: 3.0493495}
+  m_LocalPosition: {x: -1.1614, y: -0.435, z: 0.1759}
+  m_LocalScale: {x: 0.2930206, y: 0.65, z: 3.0493495}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1188972597143479515}
@@ -194,6 +196,7 @@ MonoBehaviour:
   _swallowClip: {fileID: 8300000, guid: 0224bf0f2ae1fb647a7a873ee51c35fe, type: 3}
   _chokeClip: {fileID: 8300000, guid: aeb3d71e5b50ec646a491874a02ff7bc, type: 3}
   _neckMaterial: {fileID: 2100000, guid: 628b497547336ac48a215327151d63c6, type: 2}
+  _mouthParticles: {fileID: 8581491918760344267}
 --- !u!1 &7881955942016840922
 GameObject:
   m_ObjectHideFlags: 0
@@ -831,6 +834,12 @@ PrefabInstance:
 --- !u!4 &7463550747169056102 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3956949522168152681, guid: 68aa9a8597400724f93cedefedb7eb7b,
+    type: 3}
+  m_PrefabInstance: {fileID: 5871061673223186191}
+  m_PrefabAsset: {fileID: 0}
+--- !u!198 &8581491918760344267 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 2769051945270812100, guid: 68aa9a8597400724f93cedefedb7eb7b,
     type: 3}
   m_PrefabInstance: {fileID: 5871061673223186191}
   m_PrefabAsset: {fileID: 0}
