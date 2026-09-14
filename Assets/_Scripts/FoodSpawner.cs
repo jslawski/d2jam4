@@ -25,9 +25,6 @@ public class FoodSpawner : MonoBehaviour
     [SerializeField]
     private Transform _playerTransform;
 
-    [SerializeField]
-    private GameObject _optionsCanvas;
-
     private float _playerXPosition;
 
     private float _nextSpawnTimeInSamples;
@@ -52,29 +49,15 @@ public class FoodSpawner : MonoBehaviour
         this._allFoods = Resources.LoadAll<GameObject>("FoodClusters/Test");
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        if (Input.GetKeyUp(KeyCode.S))
-        {
-            this.StartFoodSpawning();
-        }
-
-        if (Input.GetKeyUp(KeyCode.O))
-        {
-            this._optionsCanvas.SetActive(!this._optionsCanvas.activeSelf);
-        }
-
-        if (Input.GetKeyUp(KeyCode.R))
-        {
-            SceneManager.LoadScene(0);
-        }
-    }
-
     public void StartFoodSpawning()
     {
         this._musicSource.Play();
         StartCoroutine(this.SpawnLogic());
+    }
+
+    public void StopFoodSpawning()
+    {
+        StopAllCoroutines();
     }
 
     public void SetNextSpawnTime(float numBeats)

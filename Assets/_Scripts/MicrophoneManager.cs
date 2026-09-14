@@ -67,8 +67,13 @@ public class MicrophoneManager : MonoBehaviour
     }
 
     private void Update()
-    {            
-        int sampleDelta = this.GetDistanceFromCurrentSample(AudioSettings.outputSampleRate, this._previousSample, Microphone.GetPosition(GameOptions.device));
+    {
+        if (Microphone.IsRecording(GameOptions.device) == false)
+        {
+            return;
+        }
+        
+    int sampleDelta = this.GetDistanceFromCurrentSample(AudioSettings.outputSampleRate, this._previousSample, Microphone.GetPosition(GameOptions.device));
 
         if (sampleDelta > this._latencyInSamples)
         {
@@ -246,5 +251,12 @@ public class MicrophoneManager : MonoBehaviour
 
         this._audioSource.clip = this._recordedAudioClip;
         this._audioSource.Play();
+    }
+
+    public void StopMicInput()
+    {
+        Microphone.End(GameOptions.device);
+        this._recordedAudioClip = null;
+        this._audioSource.Stop();
     }
 }

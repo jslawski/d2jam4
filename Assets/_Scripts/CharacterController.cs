@@ -49,12 +49,6 @@ public class CharacterController : MonoBehaviour
         //this.ScaleDebugObject();               
     }
 
-    private void ScaleDebugObject()
-    {
-        this._targetScale = Vector3.Lerp(this._minScale, this._maxScale, this._normalizedVolumeValue);
-        this.transform.localScale = Vector3.Lerp(this.transform.localScale, this._targetScale, this.scaleSpeed * Time.deltaTime);        
-    }
-
     private void ApplyPitchChanges()
     {
         this._normalizedPitchValue = MicrophoneManager.instance.GetCurrentNormalizedPitch();

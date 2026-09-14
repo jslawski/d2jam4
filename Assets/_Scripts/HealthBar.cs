@@ -27,25 +27,14 @@ public class HealthBar : MonoBehaviour
         this._emphasizeScale = this._originalScale * 1.05f;
     }
 
-    private void Update()
-    {
-        if (Input.GetKeyUp(KeyCode.Q))
-        {
-            this.RemoveHealth(0.1f);
-        }
-        if (Input.GetKeyUp(KeyCode.W))
-        {
-            this.AddHealth(0.1f);
-        }
-    }
-
     public void RemoveHealth(float healthToRemove)
     {
         GameManager.instance.currentHealth = GameManager.instance.currentHealth - healthToRemove;
 
-        if (GameManager.instance.currentHealth < 0)
+        if (GameManager.instance.currentHealth <= 0)
         {
             GameManager.instance.currentHealth = 0;
+            GameManager.instance.EndGame();
         }
 
         float targetFillValue = GameManager.instance.currentHealth;
