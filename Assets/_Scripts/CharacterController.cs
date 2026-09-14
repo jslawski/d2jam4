@@ -1,3 +1,4 @@
+using DG.Tweening;
 using UnityEngine;
 
 public class CharacterController : MonoBehaviour
@@ -23,6 +24,8 @@ public class CharacterController : MonoBehaviour
     private FaceController _faceController;
     private MouthController _mouthController;
 
+    private static Transform thisTransform;
+
     private void Awake()
     {
         this._minScale = Vector3.one * 0.5f;
@@ -32,6 +35,7 @@ public class CharacterController : MonoBehaviour
 
         this._faceController = GetComponent<FaceController>();
         this._mouthController = GetComponentInChildren<MouthController>();
+        CharacterController.thisTransform = this.transform;
     }
 
     private void Update()
@@ -64,5 +68,11 @@ public class CharacterController : MonoBehaviour
         this._targetPosition.y = this._targetYPosition;
 
         this.transform.localPosition = Vector3.Lerp(this.transform.localPosition, this._targetPosition, this.moveSpeed * Time.deltaTime);
+    }
+
+    public static void Jostle()
+    {
+        CharacterController.thisTransform.DOShakeRotation(0.25f, 10);
+        CharacterController.thisTransform.DOShakePosition(0.25f, 0.2f);//(this._timeToDecreaseHealth, 20f, 25, 90, false, false);
     }
 }

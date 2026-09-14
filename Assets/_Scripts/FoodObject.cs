@@ -56,6 +56,8 @@ public class FoodObject : MonoBehaviour
 
         AudioManager.instance.Play(this._missClip, this._channelSettings);
 
+        CharacterController.Jostle();
+
         Invoke("DestroyAfterDelay", 2.0f);
     }
 
