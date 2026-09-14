@@ -16,6 +16,9 @@ public class TutorialManager : MonoBehaviour
     [SerializeField]
     private CharacterController _characterController;
 
+    [SerializeField]
+    private RectTransform _tutorialInstructions;
+
     private bool _lowFlagCleared = false;
 
     private bool _highFlagCleared = false;
@@ -59,6 +62,7 @@ public class TutorialManager : MonoBehaviour
     private IEnumerator ResetPlayerPosition()
     {
         this._characterController.gameObject.transform.DOMoveY(0.0f, 0.5f).SetEase(Ease.OutBack);
+        this._tutorialInstructions.DOScale(0.0f, 0.5f).SetEase(Ease.OutBack);
 
         yield return new WaitForSeconds(0.5f);
 
