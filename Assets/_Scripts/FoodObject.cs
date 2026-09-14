@@ -26,7 +26,7 @@ public class FoodObject : MonoBehaviour
         this._foodCollider = GetComponentInChildren<Collider>();
         this._foodRenderer = GetComponentInChildren<Renderer>();
 
-        this._channelSettings = new AudioChannelSettings(false, 0.9f, 1.1f, 1.0f);
+        this._channelSettings = new AudioChannelSettings(false, 0.9f, 1.1f, 1.0f, "SFX");
         this._missClip = Resources.Load<AudioClip>("Audio/miss");
     }
 

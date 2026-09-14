@@ -52,7 +52,7 @@ public class MouthController : MonoBehaviour
             instance = this;
         }
 
-        this._channelSettings = new AudioChannelSettings(false, 0.9f, 1.1f, 1.0f);
+        this._channelSettings = new AudioChannelSettings(false, 0.9f, 1.1f, 0.5f, "SFX");
     }
 
     private void Update()
