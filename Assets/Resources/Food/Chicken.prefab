@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 966401912741116358}
   - component: {fileID: 7202814336771030586}
   - component: {fileID: 7040913588480877411}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Chicken
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -48,7 +48,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 931008d4a09b2e3419a32f0d7c07cc77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _foodCollider: {fileID: 7040913588480877411}
+  pointsValue: 10
+  isBeingEaten: 0
 --- !u!33 &966401912741116358
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -130,7 +131,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3565906785009739062}
-  m_Layer: 0
+  - component: {fileID: -412415763262611114}
+  - component: {fileID: -2962963483299321323}
+  m_Layer: 3
   m_Name: Chicken
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -153,6 +156,47 @@ Transform:
   - {fileID: 251020312191251307}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!54 &-412415763262611114
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1135549341045894508}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!114 &-2962963483299321323
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1135549341045894508}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 931008d4a09b2e3419a32f0d7c07cc77, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pointsValue: 10
+  isBeingEaten: 0
 --- !u!1001 &7322514143297347696
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -165,6 +209,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: SparkleParticle
+      objectReference: {fileID: 0}
+    - target: {fileID: 4750729566891940044, guid: b6bfc0361b6591548b295cd8cfc0cc01,
+        type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 5315718962325690295, guid: b6bfc0361b6591548b295cd8cfc0cc01,
         type: 3}

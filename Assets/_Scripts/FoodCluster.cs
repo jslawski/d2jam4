@@ -5,7 +5,13 @@ using UnityEngine;
 public class FoodCluster : MonoBehaviour
 {
     [SerializeField]
+    private float _secondsToReachDestination = 3.0f;
+    [SerializeField]
+    private float _secondsBetweenFoods = 2.0f;
+    
+    
     private float _beatsOfSeparation = 2.0f;
+    
 
     private float _distancePerBeat = 0.0f;
 
@@ -79,7 +85,7 @@ public class FoodCluster : MonoBehaviour
         float secondsToDestination = beatsToDestination / beatsPerSecond;
         float distanceToDestination = Mathf.Abs(this._targetXPosition - this._allColliders[0].bounds.max.x);
 
-        this._moveSpeed = distanceToDestination / secondsToDestination;
+        this._moveSpeed = distanceToDestination / this._secondsToReachDestination;
         this._distancePerBeat = this._moveSpeed / beatsPerSecond;
     }    
 
@@ -91,9 +97,10 @@ public class FoodCluster : MonoBehaviour
             Collider collider2 = this._allColliders[i];
 
             float previousColliderXMin = collider1.bounds.min.x;
-            float currentColliderXExtents = collider2.bounds.extents.x;            
+            float currentColliderXExtents = collider2.bounds.extents.x;
 
-            float distanceFromPreviousFood = ((2.0f * this._distancePerBeat * this._beatsOfSeparation) + currentColliderXExtents - (this._moveSpeed * Time.fixedDeltaTime));
+            //float distanceFromPreviousFood = ((2.0f * this._distancePerBeat * this._beatsOfSeparation) + currentColliderXExtents - (this._moveSpeed * Time.fixedDeltaTime));
+            float distanceFromPreviousFood = (this._moveSpeed * this._secondsBetweenFoods) + currentColliderXExtents - (this._moveSpeed * Time.fixedDeltaTime);
             float newFoodXPosition = previousColliderXMin - distanceFromPreviousFood;
 
             Vector3 originalPosition = collider2.transform.position;

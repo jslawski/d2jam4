@@ -71,11 +71,12 @@ public class GameManager : MonoBehaviour
         this.foodsEaten++;
         this._currentStreak++;
 
-
         if (this._currentStreak > highestStreak)
         {
             this.highestStreak = this._currentStreak;
         }
+
+
     }
 
     public void RemoveHealth()
@@ -97,5 +98,10 @@ public class GameManager : MonoBehaviour
         MicrophoneManager.instance.StopMicInput();
 
         //Display End Screen Here
+    }
+
+    public float GetCurrentPlaytimeInSeconds()
+    {
+        return this._timer.GetRawTime();
     }
 }

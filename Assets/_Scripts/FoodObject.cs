@@ -23,8 +23,8 @@ public class FoodObject : MonoBehaviour
         this._bounceVector = new Vector3(-0.75f, 1.0f, 0.0f).normalized;
 
         this._foodRb = GetComponent<Rigidbody>();
-        this._foodCollider = GetComponent<Collider>();
-        this._foodRenderer = GetComponent<Renderer>();
+        this._foodCollider = GetComponentInChildren<Collider>();
+        this._foodRenderer = GetComponentInChildren<Renderer>();
 
         this._channelSettings = new AudioChannelSettings(false, 0.9f, 1.1f, 1.0f);
         this._missClip = Resources.Load<AudioClip>("Audio/miss");
@@ -61,7 +61,6 @@ public class FoodObject : MonoBehaviour
 
     public void EatFood()
     {
-        //TODO: Do something with points value here
         Destroy(this.gameObject);
     }
 
