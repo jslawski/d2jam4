@@ -63,9 +63,14 @@ public class FoodObject : MonoBehaviour
 
     public void Hide()
     {    
+        //Transform oldParent = this.transform.parent;
         this.transform.parent = null;
+        //Destroy(oldParent.gameObject);
+
         this._foodCollider.enabled = false;
         this.transform.DOScale(Vector3.zero, 0.2f).SetEase(Ease.InOutBack);
+
+        Invoke("EatFood", 1.0f);
     }
 
     public void EatFood()
