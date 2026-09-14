@@ -1851,6 +1851,7 @@ MonoBehaviour:
   _maxYSpawn: 0
   _beatsPerSecond: 0
   _playerTransform: {fileID: 563610317}
+  _debugDifficultyText: {fileID: 942526383}
 --- !u!4 &972745755
 Transform:
   m_ObjectHideFlags: 0

@@ -6,7 +6,7 @@ public class KillPlane : MonoBehaviour
 {
     private void OnTriggerEnter(Collider other)
     {
-        FoodObject foodObject = other.gameObject.GetComponent<FoodObject>();
+        FoodObject foodObject = other.gameObject.GetComponentInParent<FoodObject>();
 
         if (foodObject.isBeingEaten == false)
         {

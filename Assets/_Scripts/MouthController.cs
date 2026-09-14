@@ -73,19 +73,19 @@ public class MouthController : MonoBehaviour
     {        
         if (this._currentFood == null && this._mouthIsOpen == true)
         {
-            this._currentFood = other.gameObject.GetComponent<FoodObject>();
+            this._currentFood = other.gameObject.GetComponentInParent<FoodObject>();
             this._currentFood.isBeingEaten = true;
         }
         else
         {
-            other.gameObject.GetComponent<FoodObject>().BounceFood();
+            other.gameObject.GetComponentInParent<FoodObject>().BounceFood();
             AudioManager.instance.Play(this._chokeClip, this._channelSettings);
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.GetComponent<FoodObject>() == this._currentFood)
+        if (other.gameObject.GetComponentInParent<FoodObject>() == this._currentFood)
         {
             this._readyToSwallow = true;
             AudioManager.instance.Play(this._swallowReadyClip, this._channelSettings);

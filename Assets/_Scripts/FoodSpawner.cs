@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -20,7 +21,9 @@ public class FoodSpawner : MonoBehaviour
 
     private double _previousBeatTimeInSamples;
 
-    private GameObject[] _allFoods;
+    private GameObject[] _easyFoodClusters;
+    private GameObject[] _mediumFoodClusters;
+    private GameObject[] _hardFoodClusters;
 
     [SerializeField]
     private Transform _playerTransform;
@@ -28,6 +31,9 @@ public class FoodSpawner : MonoBehaviour
     private float _playerXPosition;
 
     private float _nextSpawnTimeInSamples;
+
+    [SerializeField]
+    private TextMeshProUGUI _debugDifficultyText;
 
     private void Awake()
     {
@@ -46,7 +52,9 @@ public class FoodSpawner : MonoBehaviour
         this._beatsPerSecond = this.songBPM / 60.0f;
         this._samplesPerBeat = Mathf.FloorToInt(AudioSettings.outputSampleRate / this._beatsPerSecond);
 
-        this._allFoods = Resources.LoadAll<GameObject>("FoodClusters/Test");
+        this._easyFoodClusters = Resources.LoadAll<GameObject>("FoodClusters/01_Easy");
+        this._mediumFoodClusters = Resources.LoadAll<GameObject>("FoodClusters/02_Medium");
+        this._hardFoodClusters = Resources.LoadAll<GameObject>("FoodClusters/03_Hard");
     }
 
     public void StartFoodSpawning()
@@ -97,6 +105,10 @@ public class FoodSpawner : MonoBehaviour
 
     private void SpawnFoodCluster()
     {
+        DifficultyScaler.UpdateDifficulty();
+
+        this._debugDifficultyText.text = DifficultyScaler.currentDifficulty.ToString();
+
         Vector3 spawnPosition = new Vector3(this._xSpawn, Random.Range(this._minYSpawn, this._maxYSpawn), this.transform.position.z);
 
         GameObject spawnedFood = Instantiate(this.GetRandomFood(), spawnPosition, new Quaternion(), this.transform);
@@ -105,8 +117,69 @@ public class FoodSpawner : MonoBehaviour
     }
 
     private GameObject GetRandomFood()
-    {     
-        int randomIndex = Random.Range(0, this._allFoods.Length);
-        return this._allFoods[randomIndex];
+    {
+        GameObject[] chosenBucket = this.GetDifficultyBucket();
+
+        int randomIndex = Random.Range(0, chosenBucket.Length);
+        return chosenBucket[randomIndex];
+    }
+
+    private GameObject[] GetDifficultyBucket()
+    {
+        float randomRoll = Random.Range(0.0f, 1.0f);
+        float majority = 0.8f;
+
+        if (DifficultyScaler.currentDifficulty == Difficulty.VERYHARD)
+        {
+            return this._hardFoodClusters;
+        }
+        else if (DifficultyScaler.currentDifficulty == Difficulty.HARD)
+        {
+            if (randomRoll <= majority)
+            {
+                return this._hardFoodClusters;
+            }
+            else
+            {
+                return this._mediumFoodClusters;
+            }
+        }
+        else if (DifficultyScaler.currentDifficulty == Difficulty.MEDIUMHARD)
+        {
+            if (randomRoll <= majority)
+            {
+                return this._mediumFoodClusters;
+            }
+            else
+            {
+                return this._hardFoodClusters;
+            }
+        }
+        else if (DifficultyScaler.currentDifficulty == Difficulty.MEDIUM)
+        {
+            if (randomRoll <= majority)
+            {
+                return this._mediumFoodClusters;
+            }
+            else
+            {
+                return this._easyFoodClusters;
+            }
+        }
+        else if (DifficultyScaler.currentDifficulty == Difficulty.EASYMEDIUM)
+        {
+            if (randomRoll <= majority)
+            {
+                return this._easyFoodClusters;
+            }
+            else
+            {
+                return this._mediumFoodClusters;
+            }
+        }
+        else
+        {
+            return this._easyFoodClusters;
+        }
     }
 }

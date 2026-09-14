@@ -12,7 +12,7 @@ public class HeadColliders : MonoBehaviour
         }
         else
         {
-            other.gameObject.GetComponent<FoodObject>().BounceFood();
+            other.gameObject.GetComponentInParent<FoodObject>().BounceFood();
         }
     }
 }
