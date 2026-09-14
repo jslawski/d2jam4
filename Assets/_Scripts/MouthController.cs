@@ -120,6 +120,8 @@ public class MouthController : MonoBehaviour
 
                 this._mouthParticles.Play();
 
+                CherryPopper.instance.Poppim();
+
                 AudioManager.instance.Play(this._swallowClip, this._channelSettings);
             }
             else

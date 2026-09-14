@@ -4633,6 +4633,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1361269363}
   - component: {fileID: 1361269362}
+  - component: {fileID: 1361269364}
   m_Layer: 0
   m_Name: PoppaCherry
   m_TagString: Untagged
@@ -4707,6 +4708,22 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1361269364
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1361269361}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9307ddcaa373b3740b9ae8264f88a1f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  poppaCherry: {fileID: 1361269363}
+  poppaSprite: {fileID: 1361269362}
+  neutralSprite: {fileID: 21300000, guid: f641da6d43e751a4880859126556ceb5, type: 3}
+  gasmSprite: {fileID: 21300000, guid: 5f99685f16e433a45941d57b084ee3ef, type: 3}
 --- !u!1 &1375131956
 GameObject:
   m_ObjectHideFlags: 0
