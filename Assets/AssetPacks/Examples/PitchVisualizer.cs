@@ -23,7 +23,8 @@ public class PitchVisualizer : MonoBehaviour
 
     void UpdateVisualizer()
     {
-        // estimate the fundamental frequency
+    /*   
+    // estimate the fundamental frequency
         var frequency = estimator.Estimate(audioSource);
 
         // visualize SRH score
@@ -64,6 +65,7 @@ public class PitchVisualizer : MonoBehaviour
         // visualize lowest/highest frequency
         textMin.text = string.Format("{0} Hz", estimator.frequencyMin);
         textMax.text = string.Format("{0} Hz", estimator.frequencyMax);
+        */
     }
 
     // frequency -> pitch name

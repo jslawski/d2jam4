@@ -184,4 +184,13 @@ public class FoodSpawner : MonoBehaviour
             return this._easyFoodClusters;
         }
     }
+
+    public void DestroyAllFood()
+    {
+        FoodCluster[] allClusters = GetComponentsInChildren<FoodCluster>();
+        for (int i = 0; i < allClusters.Length; i++)
+        {
+            Destroy(allClusters[i].gameObject);
+        }
+    }
 }

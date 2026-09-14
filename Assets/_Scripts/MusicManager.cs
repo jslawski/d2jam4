@@ -14,7 +14,7 @@ public class MusicManager : MonoBehaviour
 
     private float _maxVolume = 0.3f;
 
-    private bool _gameStarted = false;
+    public bool _gameStarted = false;
 
     private void Awake()
     {
@@ -45,6 +45,15 @@ public class MusicManager : MonoBehaviour
         {
             this._audioSources[i].volume = 0.0f;    
             this._audioSources[i].Play();
+        }
+    }
+
+    public void StopMusic()
+    {
+        for (int i = 0; i < this._audioSources.Length; i++)
+        {
+            this._audioSources[i].volume = 0.0f;
+            this._audioSources[i].Stop();
         }
     }
 

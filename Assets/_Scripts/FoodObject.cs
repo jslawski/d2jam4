@@ -19,6 +19,9 @@ public class FoodObject : MonoBehaviour
     private AudioChannelSettings _channelSettings;
     private AudioClip _missClip;
 
+    [SerializeField]
+    private GameObject _splatParticlePrefab;
+
     private void Awake()
     {
         this._bounceVector = new Vector3(-0.75f, 1.0f, 0.0f).normalized;
@@ -49,15 +52,15 @@ public class FoodObject : MonoBehaviour
 
         GameManager.instance.RemoveHealth();
 
+        Instantiate(this._splatParticlePrefab, this.transform.position, new Quaternion());
+
         AudioManager.instance.Play(this._missClip, this._channelSettings);
 
         Invoke("DestroyAfterDelay", 2.0f);
     }
 
     public void Hide()
-    {
-        Debug.LogError("HIDE");
-    
+    {    
         this.transform.parent = null;
         this._foodCollider.enabled = false;
         this.transform.DOScale(Vector3.zero, 0.2f).SetEase(Ease.InOutBack);

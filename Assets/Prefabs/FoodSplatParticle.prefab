@@ -4900,6 +4900,7 @@ GameObject:
   - component: {fileID: 4245724645406660474}
   - component: {fileID: 6983503663696035242}
   - component: {fileID: 2230084099459379983}
+  - component: {fileID: -6405985274283368431}
   m_Layer: 0
   m_Name: FoodSplatParticle
   m_TagString: Untagged
@@ -9781,6 +9782,18 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
+--- !u!114 &-6405985274283368431
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7421425168132894508}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 92c9e2ccd8c47cc4da23e16ff807c748, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8412951328686861687
 GameObject:
   m_ObjectHideFlags: 0

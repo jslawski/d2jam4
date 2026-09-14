@@ -27,6 +27,6 @@ public class DeviceSelector : MonoBehaviour
     public void UpdateDevice()
     {
         GameOptions.device = this._dropdownMenu.options[this._dropdownMenu.value].text;
-        MicrophoneManager.instance.Refresh();
+        //MicrophoneManager.instance.Refresh();
     }
 }

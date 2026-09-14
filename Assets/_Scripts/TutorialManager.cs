@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -19,11 +20,12 @@ public class TutorialManager : MonoBehaviour
 
     private bool _highFlagCleared = false;
 
-    private float _buffer = 0.3f;
+    private float _buffer = 0.5f;
 
     private void Awake()
     {
         this._channelSettings = new AudioChannelSettings(false, 1.0f, 1.0f, 0.5f, "SFX");
+        this._characterController = GameObject.Find("PlayerCharacter").GetComponent<CharacterController>();
     }
 
     // Update is called once per frame
@@ -37,14 +39,12 @@ public class TutorialManager : MonoBehaviour
         if (this._lowFlagCleared == false && this._characterController.gameObject.transform.position.y <= (this._characterController._minYPosition + this._buffer))
         {
             this._lowFlagCleared = true;
-            Debug.LogError("Low Flag Cleared!");
             AudioManager.instance.Play(this._flagClearedClip, this._channelSettings);
         }
 
         if (this._highFlagCleared == false && this._characterController.gameObject.transform.position.y >= (this._characterController._maxYPosition - this._buffer))
         {
             this._highFlagCleared = true;
-            Debug.LogError("High Flag Cleared!");
             AudioManager.instance.Play(this._flagClearedClip, this._channelSettings);
         }
     }
@@ -52,7 +52,18 @@ public class TutorialManager : MonoBehaviour
     private void EndTutorial()
     {
         this._tutorialMusic.Stop();
+        MicrophoneManager.instance.StopMicInput();
+        StartCoroutine(this.ResetPlayerPosition());
+    }
+
+    private IEnumerator ResetPlayerPosition()
+    {
+        this._characterController.gameObject.transform.DOMoveY(0.0f, 0.5f).SetEase(Ease.OutBack);
+
+        yield return new WaitForSeconds(0.5f);
+
         GameManager.instance.StartGame();
+
         Destroy(this.gameObject);
     }
 }

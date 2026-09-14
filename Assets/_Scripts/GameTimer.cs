@@ -26,6 +26,12 @@ public class GameTimer : MonoBehaviour
         StopAllCoroutines();
     }
 
+    public void ResetTimer()
+    {
+        this._timeElapsed = 0.0f;
+        this._timerText.text = "";
+    }
+
     private IEnumerator RunTimer()
     {
         while (true)

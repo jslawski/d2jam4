@@ -15,6 +15,12 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private GameObject _optionsCanvas;
 
+    [SerializeField]
+    private GameObject _tutorialManagerPrefab;
+
+    [SerializeField]
+    private GameObject _characterControllerObject;
+
     public float currentHealth = 1.0f;
 
     public int foodsEaten = 0;
@@ -47,7 +53,10 @@ public class GameManager : MonoBehaviour
 
         if (Input.GetKeyUp(KeyCode.R))
         {
-            SceneManager.LoadScene(0);
+            this.ResetGame();    
+        
+            //MicrophoneManager.instance.ClearAudioData();
+            
         }
 
         if (Input.GetKeyUp(KeyCode.Q))
@@ -89,7 +98,8 @@ public class GameManager : MonoBehaviour
     {
         this._timer.StartTimer();
         MusicManager.instance.StartMusic();
-        FoodSpawner.instance.StartFoodSpawning();        
+        FoodSpawner.instance.StartFoodSpawning();
+        MicrophoneManager.instance.ActivateMicInput();
     }
 
     public void EndGame()
@@ -105,5 +115,30 @@ public class GameManager : MonoBehaviour
     public float GetCurrentPlaytimeInSeconds()
     {
         return this._timer.GetRawTime();
+    }
+
+    public void ResetGame()
+    {
+        //Player Position    
+        this._characterControllerObject.transform.position = new Vector3(this._characterControllerObject.transform.position.x, 0.0f, this._characterControllerObject.transform.position.z);
+        //Score
+        this.foodsEaten = 0;
+        this.highestStreak = 0;
+        this._currentStreak = 0;
+        //Health
+        this.currentHealth = 1.0f;
+        this.AddHealth();
+        //Timer
+        this._timer.ResetTimer();
+        //Music
+        MusicManager.instance.StopMusic();
+        MusicManager.instance.StartMusic();
+        //Difficulty
+        DifficultyScaler.currentDifficulty = Difficulty.EASY;
+        //Re-enable mic input
+        MicrophoneManager.instance.ActivateMicInput();
+        //Destroy All Food
+        FoodSpawner.instance.DestroyAllFood();
+
     }
 }

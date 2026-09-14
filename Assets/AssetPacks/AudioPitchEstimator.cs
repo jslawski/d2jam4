@@ -9,11 +9,11 @@ public class AudioPitchEstimator : MonoBehaviour
 {
     [Tooltip("Lowest frequency that can estimate [Hz]")]
     [Range(40, 150)]
-    public int frequencyMin = 40;
+    public int frequencyMin = 70;
 
     [Tooltip("Highest frequency that can estimate [Hz]")]
     [Range(300, 1200)]
-    public int frequencyMax = 600;
+    public int frequencyMax = 700;
 
     [Tooltip("Number of overtones to use for estimation")]
     [Range(1, 8)]

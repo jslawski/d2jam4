@@ -75,6 +75,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pointsValue: 10
   isBeingEaten: 0
+  _splatParticlePrefab: {fileID: 7421425168132894508, guid: 70eadd23c60745544a280d5a9ad176a7,
+    type: 3}
 --- !u!1 &4225139494284576049
 GameObject:
   m_ObjectHideFlags: 0

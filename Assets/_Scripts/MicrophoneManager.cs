@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Audio;
 
 public class MicrophoneManager : MonoBehaviour
 {
@@ -17,9 +19,12 @@ public class MicrophoneManager : MonoBehaviour
 
     public float noiseGate = 0.001f;
 
-    private AudioClip _recordedAudioClip;
+    //private AudioClip _recordedAudioClip;
 
     [SerializeField]
+    private AudioMixerGroup _audioMixerGroup;
+
+    //[SerializeField]
     private AudioSource _audioSource;
 
     private float _latencyInSeconds = 0.01f;
@@ -37,6 +42,8 @@ public class MicrophoneManager : MonoBehaviour
     private float _minVolume = 0.0f;
     private float _maxVolume = 0.2f;
 
+    private bool _micActive = true;
+
     private void Awake()
     {
     /*    
@@ -45,30 +52,38 @@ public class MicrophoneManager : MonoBehaviour
             Debug.LogError(Microphone.devices[i]);
         }
         */
-        Application.targetFrameRate = 144;    
-    
-        if (instance == null)
-        {
-            instance = this;
-        }
+          
+
+        instance = this;
 
         this._previousPitches = new Queue<float>();
+
+        this._audioSource = this.gameObject.AddComponent<AudioSource>();
+        this._audioSource.playOnAwake = false;
+        this._audioSource.loop = true;
+        this._audioSource.outputAudioMixerGroup = this._audioMixerGroup;
+
+        this.pitchEstimator = this.gameObject.AddComponent<AudioPitchEstimator>();
+
+        //this._audioSource.clip = this._recordedAudioClip;
     }
 
     // Start is called before the first frame update
     void Start()
-    {        
+    {
+        Application.targetFrameRate = 144;
+
         this._latencyInSamples = Mathf.FloorToInt(AudioSettings.outputSampleRate * this._latencyInSeconds);
 
-        this._recordedAudioClip = Microphone.Start(GameOptions.device, true, 1, AudioSettings.outputSampleRate);
-
-        this._audioSource.clip = this._recordedAudioClip;
+        this._audioSource.clip = Microphone.Start(GameOptions.device, true, 1, AudioSettings.outputSampleRate);
+        //this._audioSource.clip = this._recordedAudioClip;
+        //this._audioSource.clip = this._recordedAudioClip;
         this._audioSource.Play();
     }
 
     private void Update()
     {
-        if (Microphone.IsRecording(GameOptions.device) == false)
+        if (this._micActive == false)
         {
             return;
         }
@@ -96,7 +111,7 @@ public class MicrophoneManager : MonoBehaviour
     private void UpdateCurrentLoudness(int sampleDelta)
     {
         float[] audioClipData = new float[sampleDelta];
-        this._recordedAudioClip.GetData(audioClipData, this._previousSample);
+        this._audioSource.clip.GetData(audioClipData, this._previousSample);
 
         this._currentLoudness = this.GetPeakLoudness(audioClipData);
 
@@ -243,20 +258,35 @@ public class MicrophoneManager : MonoBehaviour
         return resultant;
     }
 
+    public void ActivateMicInput()
+    {
+        this._micActive = true;
+    }
+
     public void Refresh()
     {
+        return;
+    
         this._audioSource.Stop();    
     
-        this._recordedAudioClip = Microphone.Start(GameOptions.device, true, 1, AudioSettings.outputSampleRate);
+        //this._recordedAudioClip = Microphone.Start(GameOptions.device, true, 1, AudioSettings.outputSampleRate);
 
-        this._audioSource.clip = this._recordedAudioClip;
+        //this._audioSource.clip = this._recordedAudioClip;
         this._audioSource.Play();
     }
 
     public void StopMicInput()
     {
+        this._micActive = false;
+    }
+
+    public void ClearAudioData()
+    {
         Microphone.End(GameOptions.device);
-        this._recordedAudioClip = null;
+        this._audioSource.clip = null;
+        //this._recordedAudioClip = null;        
         this._audioSource.Stop();
+
+        Destroy(this.pitchEstimator);
     }
 }
