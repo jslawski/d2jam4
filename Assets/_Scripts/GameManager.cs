@@ -33,6 +33,11 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    private void Start()
+    {
+        this.StartGame();
+    }
+
     void Update()
     {
         if (Input.GetKeyUp(KeyCode.S))
@@ -93,6 +98,7 @@ public class GameManager : MonoBehaviour
 
     public void EndGame()
     {
+        return;
         this._timer.StopTimer();
         FoodSpawner.instance.StopFoodSpawning();
         MicrophoneManager.instance.StopMicInput();
