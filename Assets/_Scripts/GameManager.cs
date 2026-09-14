@@ -10,7 +10,7 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private HealthBar _healthBar;
     [SerializeField]
-    private GameTimer _timer;
+    public GameTimer _timer;
 
     [SerializeField]
     private GameObject _optionsCanvas;
@@ -20,6 +20,9 @@ public class GameManager : MonoBehaviour
 
     [SerializeField]
     private GameObject _characterControllerObject;
+
+    [SerializeField]
+    private GameObject _endScreen;
 
     public float currentHealth = 1.0f;
 
@@ -53,9 +56,11 @@ public class GameManager : MonoBehaviour
 
         if (Input.GetKeyUp(KeyCode.R))
         {
-            this.ResetGame();    
-        
+            //this.ResetGame();    
+
             //MicrophoneManager.instance.ClearAudioData();
+
+            SceneManager.LoadScene("JaredScene");
             
         }
 
@@ -103,13 +108,18 @@ public class GameManager : MonoBehaviour
     }
 
     public void EndGame()
-    {
-        return;
+    {        
         this._timer.StopTimer();
         FoodSpawner.instance.StopFoodSpawning();
-        MicrophoneManager.instance.StopMicInput();
+        FoodSpawner.instance.DestroyAllFood();
+        //MicrophoneManager.instance.StopMicInput();
 
-        //Display End Screen Here
+        this._endScreen.SetActive(true);
+    }
+
+    public float GetTime()
+    {
+        return this._timer.GetRawTime();
     }
 
     public float GetCurrentPlaytimeInSeconds()
