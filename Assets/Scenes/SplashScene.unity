@@ -1060,9 +1060,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 082875137ec38004989b195564d36f18, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  frequencyMin: 70
+  frequencyMin: 100
   frequencyMax: 500
-  harmonicsToUse: 5
+  harmonicsToUse: 6
   smoothingWidth: 500
   thresholdSRH: 7
 --- !u!1 &2014526207
