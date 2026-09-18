@@ -25,8 +25,8 @@ public class AudioPitchEstimator : MonoBehaviour
     [Tooltip("Threshold to judge silence or not\nLarger the value, stricter the judgment.")]
     public float thresholdSRH = 7;
 
-    const int spectrumSize = 1024;
-    const int outputResolution = 100; // frequency axis resolution (decreasing this will reduce the calculation load)
+    const int spectrumSize = 2048;
+    const int outputResolution = 300; // frequency axis resolution (decreasing this will reduce the calculation load)
     float[] spectrum = new float[spectrumSize];
     float[] specRaw = new float[spectrumSize];
     float[] specCum = new float[spectrumSize];

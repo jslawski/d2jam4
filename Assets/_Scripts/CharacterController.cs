@@ -67,7 +67,7 @@ public class CharacterController : MonoBehaviour
         if (this._normalizedVolumeValue <= MicrophoneManager.instance.noiseGate)
         {
             return;
-        }
+        }        
 
         this._normalizedPitchValue = MicrophoneManager.instance.GetCurrentNormalizedPitch();
         this._targetYPosition = Mathf.Lerp(CharacterController._minYPosition, CharacterController._maxYPosition, this._normalizedPitchValue);

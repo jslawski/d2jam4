@@ -15,7 +15,7 @@ public class MicrophoneManager : MonoBehaviour
     public float minClampedPitch = 100;
     public float maxClampedPitch = 400;
 
-    public float anomalousPitchDiffThreshold = 0.7f;
+    private float anomalousPitchDiffThreshold = 100f;
 
     public float noiseGate = 0.1f;
 
@@ -57,7 +57,7 @@ public class MicrophoneManager : MonoBehaviour
 
         instance = this;
 
-        GameOptions.device = Microphone.devices[4];
+        GameOptions.device = Microphone.devices[0];
 
         this._previousPitches = new Queue<float>();
 
@@ -93,7 +93,7 @@ public class MicrophoneManager : MonoBehaviour
             return;
         }
         
-    int sampleDelta = this.GetDistanceFromCurrentSample(AudioSettings.outputSampleRate, this._previousSample, Microphone.GetPosition(GameOptions.device));
+        int sampleDelta = this.GetDistanceFromCurrentSample(AudioSettings.outputSampleRate, this._previousSample, Microphone.GetPosition(GameOptions.device));
 
         if (sampleDelta > this._latencyInSamples)
         {
@@ -136,14 +136,15 @@ public class MicrophoneManager : MonoBehaviour
 
         float latestNormalizedPitchEstimate = this.NormalizePitchValue(latestRawPitchEstimate);
 
-        if (this.IsPitchAnomalous(latestNormalizedPitchEstimate) == false)
+        if (this.IsPitchAnomalous(latestRawPitchEstimate) == false)
         {
-            this.UpdatePreviousPitchAverage(latestNormalizedPitchEstimate);
-            this._currentPitch = latestRawPitchEstimate;
+            //Debug.LogError("Pitch: " + this._currentPitch + "\nAverage: " + this._previousAverage);
+            this.UpdatePreviousPitchAverage(latestRawPitchEstimate);
+            this._currentPitch = latestRawPitchEstimate;            
         }
         else
         {
-            //Debug.LogError("Anomalous Pitch. SKIPPING!");
+            //Debug.LogError("Anomalous Pitch." + "\nAverage: " + this._previousAverage + " NewPitch: " + latestRawPitchEstimate);
         }
     }
 

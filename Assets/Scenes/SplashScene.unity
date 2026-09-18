@@ -348,8 +348,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 536275253f0870a4a8c746716b47eec4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  menuBGM: {fileID: 294316742}
-  gameplayBGM: {fileID: 294316741}
 --- !u!4 &294316744
 Transform:
   m_ObjectHideFlags: 0
@@ -985,6 +983,21 @@ PrefabInstance:
       propertyPath: m_Name
       value: MicrophoneReader
       objectReference: {fileID: 0}
+    - target: {fileID: 7147797032786189372, guid: 19de04af334844541ad8d34abdd6e9f9,
+        type: 3}
+      propertyPath: noiseGate
+      value: 0.025
+      objectReference: {fileID: 0}
+    - target: {fileID: 7147797032786189372, guid: 19de04af334844541ad8d34abdd6e9f9,
+        type: 3}
+      propertyPath: maxClampedPitch
+      value: 500
+      objectReference: {fileID: 0}
+    - target: {fileID: 7147797032786189372, guid: 19de04af334844541ad8d34abdd6e9f9,
+        type: 3}
+      propertyPath: minClampedPitch
+      value: 40
+      objectReference: {fileID: 0}
     - target: {fileID: 8829494340057353623, guid: 19de04af334844541ad8d34abdd6e9f9,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1062,10 +1075,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 082875137ec38004989b195564d36f18, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  frequencyMin: 70
+  frequencyMin: 40
   frequencyMax: 500
-  harmonicsToUse: 5
-  smoothingWidth: 500
+  harmonicsToUse: 8
+  smoothingWidth: 50
   thresholdSRH: 7
 --- !u!1 &2014526207
 GameObject:

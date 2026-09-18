@@ -56,6 +56,10 @@ public class TutorialManager : MonoBehaviour
                     this._characterTransform.DOMoveY(CharacterController._minYPosition, this._timeToGetToneInSeconds).SetEase(Ease.Linear);
                 }
 
+                //Debug.LogError(MicrophoneManager.instance.GetRawPitch());
+
+                this._currentPitches.Add(MicrophoneManager.instance.GetRawPitch());
+
                 this._elapsedTime += Time.fixedDeltaTime;
 
                 if (this._elapsedTime > this._timeToGetToneInSeconds)
@@ -70,6 +74,9 @@ public class TutorialManager : MonoBehaviour
 
             yield return new WaitForFixedUpdate();
         }
+
+        MicrophoneManager.instance.minClampedPitch = this.GetAveragePitch();
+        Debug.LogError("Calibrated Min Pitch: " + MicrophoneManager.instance.minClampedPitch);
 
         AudioManager.instance.Play(this._flagClearedClip, this._channelSettings);
 
@@ -91,6 +98,10 @@ public class TutorialManager : MonoBehaviour
                     this._characterTransform.DOMoveY(CharacterController._maxYPosition, this._timeToGetToneInSeconds).SetEase(Ease.Linear);
                 }
 
+                //Debug.LogError(MicrophoneManager.instance.GetRawPitch());
+
+                this._currentPitches.Add(MicrophoneManager.instance.GetRawPitch());
+
                 this._elapsedTime += Time.fixedDeltaTime;
 
                 if (this._elapsedTime > this._timeToGetToneInSeconds)
@@ -105,6 +116,9 @@ public class TutorialManager : MonoBehaviour
 
             yield return new WaitForFixedUpdate();
         }
+
+        MicrophoneManager.instance.maxClampedPitch = this.GetAveragePitch();
+        Debug.LogError("Calibrated Max Pitch: " + MicrophoneManager.instance.maxClampedPitch);
 
         AudioManager.instance.Play(this._flagClearedClip, this._channelSettings);
 
@@ -135,6 +149,18 @@ public class TutorialManager : MonoBehaviour
         this._elapsedTime = 0.0f;
         this._startedToneCalibration = false;
         this.ResetPlayerTransform();
+    }
+
+    private float GetAveragePitch()
+    {
+        float total = 0.0f;
+
+        for (int i = 0; i < this._currentPitches.Count; i++)
+        {
+            total += this._currentPitches[i];
+        }
+
+        return (total / this._currentPitches.Count);
     }
 
     /*

@@ -68,8 +68,6 @@ public class GameManager : MonoBehaviour
         {
             this.highestStreak = this._currentStreak;
         }
-
-
     }
 
     public void RemoveHealth()
