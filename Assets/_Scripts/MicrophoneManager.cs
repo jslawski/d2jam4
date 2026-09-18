@@ -17,6 +17,7 @@ public class MicrophoneManager : MonoBehaviour
 
     public float anomalousPitchDiffThreshold = 0.7f;
 
+    [HideInInspector]
     public float noiseGate = 0.1f;
 
     //private AudioClip _recordedAudioClip;
@@ -40,7 +41,7 @@ public class MicrophoneManager : MonoBehaviour
     private float _previousAverage = 0;
 
     private float _minVolume = 0.0f;
-    private float _maxVolume = 0.1f;
+    private float _maxVolume = 0.01f;
 
     private bool _micActive = true;
 
@@ -48,9 +49,13 @@ public class MicrophoneManager : MonoBehaviour
     {
         
     for (int i = 0; i < Microphone.devices.Length; i++)
-        {
-            Debug.LogError(Microphone.devices[i]);
-        }
+    {
+        int minFreq = 0;
+        int maxFreq = 0;
+        Microphone.GetDeviceCaps(Microphone.devices[i], out minFreq, out maxFreq);
+
+        Debug.LogError(Microphone.devices[i] + "\nMin: " + minFreq + " Max: " + maxFreq);
+    }
         
           
         DontDestroyOnLoad(this);

@@ -23,7 +23,7 @@ public class MicMeter : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.LogError("Loudness: " + MicrophoneManager.instance.GetNormalizedLoudness());    
+        //Debug.LogError("Loudness: " + MicrophoneManager.instance.GetNormalizedLoudness());    
     
         this._micImage.fillAmount = MicrophoneManager.instance.GetNormalizedLoudness();
 
