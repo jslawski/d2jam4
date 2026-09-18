@@ -40,7 +40,7 @@ public class MicrophoneManager : MonoBehaviour
     private float _previousAverage = 0;
 
     private float _minVolume = 0.0f;
-    private float _maxVolume = 0.05f;
+    private float _maxVolume = 0.1f;
 
     private bool _micActive = true;
 
