@@ -12,13 +12,15 @@ public class MicrophoneManager : MonoBehaviour
 
     public AudioPitchEstimator pitchEstimator;
 
+    [HideInInspector]
     public float minClampedPitch = 100;
+    [HideInInspector]
     public float maxClampedPitch = 400;
 
-    public float anomalousPitchDiffThreshold = 0.7f;
+    private float anomalousPitchDiffThreshold = 150f;
 
     [HideInInspector]
-    public float noiseGate = 0.1f;
+    public float noiseGate = 0.01f;
 
     //private AudioClip _recordedAudioClip;
 
@@ -41,21 +43,24 @@ public class MicrophoneManager : MonoBehaviour
     private float _previousAverage = 0;
 
     private float _minVolume = 0.0f;
-    private float _maxVolume = 0.01f;
+    private float _maxVolume = 0.02f;
 
     private bool _micActive = true;
 
+    private int _micSampleRate = 48000;
+
     private void Awake()
     {
-        
-    for (int i = 0; i < Microphone.devices.Length; i++)
-    {
+
         int minFreq = 0;
         int maxFreq = 0;
-        Microphone.GetDeviceCaps(Microphone.devices[i], out minFreq, out maxFreq);
 
-        Debug.LogError(Microphone.devices[i] + "\nMin: " + minFreq + " Max: " + maxFreq);
-    }
+        for (int i = 0; i < Microphone.devices.Length; i++)
+        {        
+            Microphone.GetDeviceCaps(Microphone.devices[i], out minFreq, out maxFreq);
+
+            Debug.LogError(Microphone.devices[i] + "\nMin: " + minFreq + " Max: " + maxFreq);
+        }
         
           
         DontDestroyOnLoad(this);
@@ -63,6 +68,8 @@ public class MicrophoneManager : MonoBehaviour
         instance = this;
 
         GameOptions.device = Microphone.devices[4];
+        Microphone.GetDeviceCaps(Microphone.devices[4], out minFreq, out maxFreq);
+        AudioSettings.outputSampleRate = maxFreq;
 
         this._previousPitches = new Queue<float>();
 
@@ -81,7 +88,7 @@ public class MicrophoneManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //Application.targetFrameRate = 144;
+        //Application.targetFrameRate = 144;        
 
         this._latencyInSamples = Mathf.FloorToInt(AudioSettings.outputSampleRate * this._latencyInSeconds);
 
@@ -98,7 +105,7 @@ public class MicrophoneManager : MonoBehaviour
             return;
         }
         
-    int sampleDelta = this.GetDistanceFromCurrentSample(AudioSettings.outputSampleRate, this._previousSample, Microphone.GetPosition(GameOptions.device));
+        int sampleDelta = this.GetDistanceFromCurrentSample(AudioSettings.outputSampleRate, this._previousSample, Microphone.GetPosition(GameOptions.device));
 
         if (sampleDelta > this._latencyInSamples)
         {
@@ -125,6 +132,8 @@ public class MicrophoneManager : MonoBehaviour
 
         this._currentLoudness = this.GetPeakLoudness(audioClipData);
 
+        //Debug.LogError("RAW LOUDNESS: " + this._currentLoudness);
+
         this._previousSample = Microphone.GetPosition(GameOptions.device);
     }
 
@@ -141,9 +150,9 @@ public class MicrophoneManager : MonoBehaviour
 
         float latestNormalizedPitchEstimate = this.NormalizePitchValue(latestRawPitchEstimate);
 
-        if (this.IsPitchAnomalous(latestNormalizedPitchEstimate) == false)
+        if (this.IsPitchAnomalous(latestRawPitchEstimate) == false)
         {
-            this.UpdatePreviousPitchAverage(latestNormalizedPitchEstimate);
+            this.UpdatePreviousPitchAverage(latestRawPitchEstimate);
             this._currentPitch = latestRawPitchEstimate;
         }
         else
@@ -162,6 +171,20 @@ public class MicrophoneManager : MonoBehaviour
         }
 
         return (Mathf.Abs(testPitch - this._previousAverage) > this.anomalousPitchDiffThreshold);
+    }
+
+    public bool IsPitchAnomalous(List<float> testWindow, float testPitch)
+    {
+        float total = 0.0f;
+
+        for (int i = 0; i < testWindow.Count; i++)
+        {
+            total += testWindow[i];
+        }
+
+        float average = total / testWindow.Count;
+
+        return (Mathf.Abs(testPitch - average) > this.anomalousPitchDiffThreshold);
     }
 
     private void UpdatePreviousPitchAverage(float newPitch)

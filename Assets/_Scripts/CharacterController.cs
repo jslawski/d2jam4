@@ -7,8 +7,8 @@ public class CharacterController : MonoBehaviour
     private Vector3 _maxScale;
     private Vector3 _targetScale;
 
-    public float _minYPosition = -2.75f;
-    public float _maxYPosition = 5.0f;    
+    public static float _minYPosition = -2.75f;
+    public static float _maxYPosition = 5.0f;    
     
     private float _targetYPosition = 0.0f;
     private Vector3 _targetPosition = Vector3.zero;
@@ -62,7 +62,7 @@ public class CharacterController : MonoBehaviour
         }
 
         this._normalizedPitchValue = MicrophoneManager.instance.GetCurrentNormalizedPitch();
-        this._targetYPosition = Mathf.Lerp(this._minYPosition, this._maxYPosition, this._normalizedPitchValue);
+        this._targetYPosition = Mathf.Lerp(CharacterController._minYPosition, CharacterController._maxYPosition, this._normalizedPitchValue);
         
         this._targetPosition = this.transform.localPosition;
         this._targetPosition.y = this._targetYPosition;
