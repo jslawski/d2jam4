@@ -85,6 +85,7 @@ public class GameManager : MonoBehaviour
         FoodSpawner.instance.StartFoodSpawning();
         MicrophoneManager.instance.ActivateMicInput();
         CherryPopper.instance.PopAndBark();
+        this._characterControllerObject.GetComponent<CharacterController>().isTutorial = false;
     }
 
     public void EndGame()
