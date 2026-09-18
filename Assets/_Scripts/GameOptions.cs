@@ -5,5 +5,5 @@ using UnityEngine;
 public static class GameOptions
 {
     public static string device = string.Empty;
-    public static float volumeMultiplier = 1;
+    public static float volumeMultiplier = 3;
 }

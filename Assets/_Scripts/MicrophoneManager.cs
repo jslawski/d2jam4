@@ -17,7 +17,7 @@ public class MicrophoneManager : MonoBehaviour
 
     public float anomalousPitchDiffThreshold = 0.7f;
 
-    public float noiseGate = 0.1f;
+    public float noiseGate = 0.001f;
 
     //private AudioClip _recordedAudioClip;
 
@@ -40,24 +40,22 @@ public class MicrophoneManager : MonoBehaviour
     private float _previousAverage = 0;
 
     private float _minVolume = 0.0f;
-    private float _maxVolume = 0.1f;
+    private float _maxVolume = 0.2f;
 
     private bool _micActive = true;
 
     private void Awake()
     {
-        
+    /*    
     for (int i = 0; i < Microphone.devices.Length; i++)
         {
             Debug.LogError(Microphone.devices[i]);
         }
-        
+        */
           
         DontDestroyOnLoad(this);
 
         instance = this;
-
-        GameOptions.device = Microphone.devices[4];
 
         this._previousPitches = new Queue<float>();
 
@@ -66,9 +64,7 @@ public class MicrophoneManager : MonoBehaviour
         this._audioSource.loop = true;
         this._audioSource.outputAudioMixerGroup = this._audioMixerGroup;
 
-        this.pitchEstimator = GetComponent<AudioPitchEstimator>();
-
-        //this.pitchEstimator = this.gameObject.AddComponent<AudioPitchEstimator>();
+        this.pitchEstimator = this.gameObject.AddComponent<AudioPitchEstimator>();
 
         //this._audioSource.clip = this._recordedAudioClip;
     }
@@ -76,7 +72,7 @@ public class MicrophoneManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //Application.targetFrameRate = 144;
+        Application.targetFrameRate = 144;
 
         this._latencyInSamples = Mathf.FloorToInt(AudioSettings.outputSampleRate * this._latencyInSeconds);
 
@@ -219,11 +215,6 @@ public class MicrophoneManager : MonoBehaviour
 
     public float GetNormalizedLoudness()
     {
-        if (this.GetScaledLoudness() < this.noiseGate)
-        {
-            return 0.0f;
-        }
-
 
         float numerator = this.GetScaledLoudness() - this._minVolume;
         float denominator = this._maxVolume - this._minVolume;

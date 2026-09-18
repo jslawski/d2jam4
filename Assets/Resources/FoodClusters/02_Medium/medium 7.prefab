@@ -48,7 +48,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25d8f228ae1d44649b08fbdb5c005ace, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _secondsToReachDestination: 3
+  _secondsToReachDestination: 2
   _secondsBetweenFoods: 2
 --- !u!1001 &1640563770279764726
 PrefabInstance:
