@@ -58,11 +58,11 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void AddHealth()
+    public void AddHealth(int foodsEaten)
     {
-        this._healthBar.AddHealth(this._healthPerSwallow);
-        this.foodsEaten++;
-        this._currentStreak++;
+        this._healthBar.AddHealth(this._healthPerSwallow * foodsEaten);
+        this.foodsEaten += foodsEaten;
+        this._currentStreak += foodsEaten;
 
         if (this._currentStreak > highestStreak)
         {
@@ -122,7 +122,7 @@ public class GameManager : MonoBehaviour
         this._currentStreak = 0;
         //Health
         this.currentHealth = 1.0f;
-        this.AddHealth();
+        //this.AddHealth();
         //Timer
         this._timer.ResetTimer();
         //Music

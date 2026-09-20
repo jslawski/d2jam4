@@ -48,6 +48,8 @@ public class MouthController : MonoBehaviour
     [SerializeField]
     private ParticleSystem _mouthParticles;
 
+    private int foodsInMouth = 0;
+
     private void Awake()
     {
         if (instance == null)
@@ -78,6 +80,7 @@ public class MouthController : MonoBehaviour
         {
             this._currentFood = other.gameObject.GetComponentInParent<FoodObject>();
             this._currentFood.isBeingEaten = true;
+            this.foodsInMouth++;
         }
         else
         {
@@ -116,13 +119,15 @@ public class MouthController : MonoBehaviour
                 this._currentFood = null;
                 this.AnimateNeckSwallow();
 
-                GameManager.instance.AddHealth();
+                GameManager.instance.AddHealth(this.foodsInMouth);
 
                 this._mouthParticles.Play();
 
                 CherryPopper.instance.Poppim();
 
                 AudioManager.instance.Play(this._swallowClip, this._channelSettings);
+
+                this.foodsInMouth = 0;
             }
             else
             {

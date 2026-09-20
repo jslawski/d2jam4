@@ -328,4 +328,20 @@ public class MicrophoneManager : MonoBehaviour
 
         Destroy(this.pitchEstimator);
     }
+
+    public void UpdateDevice()
+    {
+        int minFreq = 0;
+        int maxFreq = 0;
+
+        Microphone.GetDeviceCaps(GameOptions.device, out minFreq, out maxFreq);
+        AudioSettings.outputSampleRate = maxFreq;
+
+        this._latencyInSamples = Mathf.FloorToInt(AudioSettings.outputSampleRate * this._latencyInSeconds);
+
+        this._audioSource.clip = Microphone.Start(GameOptions.device, true, 1, AudioSettings.outputSampleRate);
+        //this._audioSource.clip = this._recordedAudioClip;
+        //this._audioSource.clip = this._recordedAudioClip;
+        this._audioSource.Play();
+    }
 }

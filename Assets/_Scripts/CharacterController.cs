@@ -63,7 +63,12 @@ public class CharacterController : MonoBehaviour
 
         this._normalizedPitchValue = MicrophoneManager.instance.GetCurrentNormalizedPitch();
         this._targetYPosition = Mathf.Lerp(CharacterController._minYPosition, CharacterController._maxYPosition, this._normalizedPitchValue);
-        
+
+        if (float.IsNaN(this._targetYPosition))
+        {
+            return;
+        }
+
         this._targetPosition = this.transform.localPosition;
         this._targetPosition.y = this._targetYPosition;
 
