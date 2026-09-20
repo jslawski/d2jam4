@@ -1,6 +1,7 @@
 using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class TutorialManager : MonoBehaviour
@@ -18,6 +19,12 @@ public class TutorialManager : MonoBehaviour
 
     [SerializeField]
     private RectTransform _tutorialInstructions;
+
+    [SerializeField]
+    private GameObject _lowNoteInstructions;
+
+    [SerializeField]
+    private GameObject _highNoteInstructions;
 
     private bool _lowFlagCleared = false;
 
@@ -49,6 +56,9 @@ public class TutorialManager : MonoBehaviour
 
         int currentFrameBuffer = 0;
 
+        this._lowNoteInstructions.SetActive(true);
+        this._highNoteInstructions.SetActive(false);
+
         while (this._lowFlagCleared == false)
         {
             if (MicrophoneManager.instance.GetNormalizedLoudness() > MicrophoneManager.instance.noiseGate)
@@ -58,17 +68,18 @@ public class TutorialManager : MonoBehaviour
                     this._startedToneCalibration = true;
                     this._characterTransform.DOKill();
                     this._characterTransform.DOMoveY(CharacterController._minYPosition, this._timeToGetToneInSeconds).SetEase(Ease.Linear);
+                    this.EmphasizeGameObject(this._lowNoteInstructions);
                 }
 
                 //Debug.LogError(MicrophoneManager.instance.GetRawPitch());
 
                 float rawPitch = MicrophoneManager.instance.GetRawPitch();
 
-
                 if (this.IsPitchAnomalous(this._currentPitches, rawPitch) == false)
                 {
                     this._currentPitches.Add(rawPitch);
                 }
+
                 this._elapsedTime += Time.fixedDeltaTime;
 
                 if (this._elapsedTime > this._timeToGetToneInSeconds)
@@ -76,7 +87,7 @@ public class TutorialManager : MonoBehaviour
                     this._lowFlagCleared = true;
                 }
             }
-            else
+            else if (this._startedToneCalibration == true)
             {
                 if (currentFrameBuffer >= this._frameBuffer)
                 {
@@ -96,12 +107,22 @@ public class TutorialManager : MonoBehaviour
 
         AudioManager.instance.Play(this._flagClearedClip, this._channelSettings);
 
+        this._lowNoteInstructions.transform.DOScale(0.0f, 0.2f).SetEase(Ease.InBack);
+
         StartCoroutine(this.GetHighTone());
     }
 
     private IEnumerator GetHighTone()
     {
         this.ResetToneCalibration();
+
+        this._lowNoteInstructions.SetActive(false);
+        MicrophoneManager.instance.StopMicInput();
+
+        yield return new WaitForSeconds(0.5f);
+
+        this._highNoteInstructions.SetActive(true);
+        MicrophoneManager.instance.ActivateMicInput();
 
         int currentFrameBuffer = 0;
 
@@ -114,6 +135,7 @@ public class TutorialManager : MonoBehaviour
                     this._startedToneCalibration = true;
                     this._characterTransform.DOKill();
                     this._characterTransform.DOMoveY(CharacterController._maxYPosition, this._timeToGetToneInSeconds).SetEase(Ease.Linear);
+                    this.EmphasizeGameObject(this._highNoteInstructions);
                 }
 
                 //Debug.LogError(MicrophoneManager.instance.GetRawPitch());
@@ -127,7 +149,7 @@ public class TutorialManager : MonoBehaviour
                     this._highFlagCleared = true;
                 }
             }
-            else
+            else if (this._startedToneCalibration == true)
             {
                 if (currentFrameBuffer >= this._frameBuffer)
                 {
@@ -147,11 +169,19 @@ public class TutorialManager : MonoBehaviour
 
         AudioManager.instance.Play(this._flagClearedClip, this._channelSettings);
 
+        this._highNoteInstructions.transform.DOScale(0.0f, 0.2f).SetEase(Ease.InBack);
+
         StartCoroutine(this.StartGame());
     }
 
     private IEnumerator StartGame()
     {
+        if (MicrophoneManager.instance.maxClampedPitch < MicrophoneManager.instance.minClampedPitch)
+        {
+            MicrophoneManager.instance.minClampedPitch = 100.0f;
+            MicrophoneManager.instance.maxClampedPitch = 200.0f;
+        }
+        
         this.ResetPlayerTransform();
         this._tutorialInstructions.DOScale(0.0f, 0.5f).SetEase(Ease.OutBack);
 
@@ -168,12 +198,24 @@ public class TutorialManager : MonoBehaviour
         this._characterTransform.DOMoveY(0.0f, 0.5f).SetEase(Ease.OutBack);
     }
 
+    private void ResetTextTransforms()
+    {
+        Debug.LogError("RESET");
+    
+        this._lowNoteInstructions.transform.DOKill();
+        this._lowNoteInstructions.transform.DOScale(1.0f, 0.5f);
+
+        this._highNoteInstructions.transform.DOKill();
+        this._highNoteInstructions.transform.DOScale(1.0f, 0.5f);
+    }
+
     private void ResetToneCalibration()
     {
         this._currentPitches.Clear();
         this._elapsedTime = 0.0f;
         this._startedToneCalibration = false;
         this.ResetPlayerTransform();
+        this.ResetTextTransforms();
     }
 
     private float GetAveragePitch()
@@ -203,6 +245,13 @@ public class TutorialManager : MonoBehaviour
         }
 
         return MicrophoneManager.instance.IsPitchAnomalous(samplePitches, rawPitch);
+    }
+
+    private void EmphasizeGameObject(GameObject targetObject)
+    {
+        float targetScale = targetObject.transform.localScale.x * 1.3f;
+        targetObject.transform.DOScale(targetScale, 0.2f).SetEase(Ease.OutBack);
+        targetObject.transform.DOShakePosition(2.0f, 5.0f, 100, 90, true, false);
     }
 
     /*

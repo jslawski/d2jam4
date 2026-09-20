@@ -51,7 +51,6 @@ public class MicrophoneManager : MonoBehaviour
 
     private void Awake()
     {
-
         int minFreq = 0;
         int maxFreq = 0;
 
@@ -67,8 +66,8 @@ public class MicrophoneManager : MonoBehaviour
 
         instance = this;
 
-        GameOptions.device = Microphone.devices[4];
-        Microphone.GetDeviceCaps(Microphone.devices[4], out minFreq, out maxFreq);
+        GameOptions.device = Microphone.devices[0];
+        Microphone.GetDeviceCaps(Microphone.devices[0], out minFreq, out maxFreq);
         AudioSettings.outputSampleRate = maxFreq;
 
         this._previousPitches = new Queue<float>();
@@ -102,6 +101,8 @@ public class MicrophoneManager : MonoBehaviour
     {
         if (this._micActive == false)
         {
+            this._currentLoudness = 0.0f;
+            this._currentPitch = 0.0f;
             return;
         }
         
